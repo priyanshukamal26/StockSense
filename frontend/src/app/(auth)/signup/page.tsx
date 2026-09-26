@@ -30,8 +30,18 @@ export default function SignupPage() {
       toast.success("Account created! Please sign in.");
       router.push("/login");
     } catch (err: unknown) {
-      const e = err as { error?: { message?: string; fields?: Record<string, string> } };
-      setServerError(e?.error?.message ?? "An error occurred. Please try again.");
+      const e = err as {
+        error?: { message?: string; fields?: Record<string, string> };
+        message?: string;
+        fields?: Record<string, string>;
+      };
+      const fieldErrors = e?.fields || e?.error?.fields;
+      if (fieldErrors && Object.keys(fieldErrors).length > 0) {
+        const firstField = Object.entries(fieldErrors)[0];
+        setServerError(`${firstField[0]}: ${firstField[1]}`);
+      } else {
+        setServerError(e?.error?.message || e?.message || "An error occurred. Please try again.");
+      }
     }
   }
 
@@ -133,17 +143,22 @@ export default function SignupPage() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full py-3 font-semibold text-sm text-white transition-all disabled:opacity-60 flex items-center justify-center gap-2 mt-2"
-          style={{ background: "var(--brand-primary)", borderRadius: "var(--radius-pill)" }}
+          className="w-full py-3.5 rounded-full font-bold text-sm bg-[#DDFF46] hover:bg-[#cbf033] text-black transition-all disabled:opacity-60 flex items-center justify-center gap-2 mt-2 shadow-lg shadow-[#DDFF46]/20 hover:scale-[1.01] active:scale-[0.99]"
         >
-          {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle size={16} />}
-          SIGN UP
+          {isSubmitting ? (
+            <Loader2 size={16} className="animate-spin text-black" />
+          ) : (
+            <>
+              <span>SIGN UP</span>
+              <span>→</span>
+            </>
+          )}
         </button>
 
-        <p className="text-center text-sm text-white/50 pt-1">
+        <p className="text-center text-xs text-white/50 pt-2">
           Already have an account?{" "}
-          <Link href="/login" className="font-semibold" style={{ color: "#405BFF" }}>
-            Sign In
+          <Link href="/login" className="font-bold text-[#DDFF46] hover:underline">
+            Sign In →
           </Link>
         </p>
       </form>

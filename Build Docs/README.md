@@ -1,73 +1,134 @@
-# StockSense
+# StockSense — Inventory Management System
 
-A modular Inventory Management System (IMS) built for the Odoo Hiring Hackathon — digitizes receiving,
-delivery, internal transfers, and stock adjustments across multiple warehouses, with a real-time,
-LaunchDarkly-inspired dashboard.
+> **Odoo Hiring Hackathon** submission.
 
-> **Start here:** every product, design, and architecture decision in this repo is documented in
-> [`docs/`](./docs). Read [`CLAUDE.md`](./CLAUDE.md) before writing any code — it's the operating manual for
-> anyone (human or AI agent) picking this project up.
+StockSense is a modular, real-time Inventory Management System (IMS) that digitizes stock operations — receiving, delivering, transferring, and adjusting — for multi-warehouse businesses. Built with PostgreSQL, Node.js/Express, and Next.js 14.
 
-## Documentation index
+---
 
-| Doc | Contents |
-|---|---|
-| [`docs/01-problem-statement-and-scope.md`](./docs/01-problem-statement-and-scope.md) | What we're building and why, straight from the hackathon brief |
-| [`docs/02-wireframes-and-ux-flows.md`](./docs/02-wireframes-and-ux-flows.md) | Every screen, field, and interaction, extracted from the Excalidraw wireframes |
-| [`docs/03-architecture-and-tech-stack.md`](./docs/03-architecture-and-tech-stack.md) | System architecture, stack choices and why |
-| [`docs/04-database-schema.md`](./docs/04-database-schema.md) | Full PostgreSQL/Prisma schema |
-| [`docs/05-api-specification.md`](./docs/05-api-specification.md) | Every REST endpoint |
-| [`docs/06-design-system-launchdarkly.md`](./docs/06-design-system-launchdarkly.md) | Visual design system (LaunchDarkly-inspired, shadcn/ui) |
-| [`docs/07-roles-and-phase-plan.md`](./docs/07-roles-and-phase-plan.md) | 10 phases × 3 subphases × 3 people |
-| [`docs/08-git-workflow-and-contributions.md`](./docs/08-git-workflow-and-contributions.md) | Branching, commits, PR review rotation |
-| [`docs/09-validation-and-security.md`](./docs/09-validation-and-security.md) | Every validation rule + security checklist |
-| [`docs/10-testing-and-demo-script.md`](./docs/10-testing-and-demo-script.md) | Test plan + the exact live demo script |
+## Team
 
-## Tech stack (short version — see `docs/03` for the full rationale)
+| Person | Role | GitHub | LinkedIn |
+|--------|------|--------|----------|
+| Priyanshu Kamal | Backend & Database Lead | [@priyanshukamal26](https://github.com/priyanshukamal26/) | [priyanshukamal](https://www.linkedin.com/in/priyanshukamal/) |
+| Somya Vishnoi | Frontend & Design System Lead | [@Somya-Vishnoi](https://github.com/Somya-Vishnoi) | [Somya-Vishnoi](https://www.linkedin.com/in/Somya-Vishnoi/) |
+| Aditya Kumar | Integration, Real-Time & Quality Lead | [@kumaradi9508](https://github.com/kumaradi9508) | [aditya958](https://www.linkedin.com/in/aditya958) |
 
-**Frontend:** Next.js 14 + TypeScript + Tailwind + shadcn/ui + TanStack Query
-**Backend:** Node.js + Express + TypeScript + Prisma
-**Database:** PostgreSQL (local via Docker Compose — no BaaS)
-**Real-time:** Socket.IO · **Auth:** custom JWT + bcrypt + OTP password reset
+---
 
-## Getting started
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Database | PostgreSQL 16 (Docker) |
+| ORM | Prisma |
+| Backend | Node.js 20 + Express + TypeScript |
+| Auth | Custom JWT + bcrypt |
+| Real-time | Socket.IO |
+| Frontend | Next.js 14 (App Router) + React 18 + TypeScript |
+| Styling | Tailwind CSS + shadcn/ui |
+| State | TanStack Query |
+| Validation | zod (backend DTOs + frontend forms via react-hook-form) |
+
+---
+
+## Quick Start
+
+### Prerequisites
+
+- Docker & Docker Compose
+- Node.js 20+
+- npm 10+
+
+### 1. Start the database
 
 ```bash
-# 1. Start Postgres
 docker compose up -d
+```
 
-# 2. Backend
+### 2. Backend
+
+```bash
 cd backend
 cp .env.example .env
+# Edit .env with your secrets
 npm install
 npx prisma migrate dev
 npx prisma db seed
-npm run dev            # http://localhost:4000
+npm run dev
+```
 
-# 3. Frontend (new terminal)
+### 3. Frontend
+
+```bash
 cd frontend
-cp .env.example .env
+cp .env.example .env.local
+# Edit .env.local if needed
 npm install
-npm run dev            # http://localhost:3000
+npm run dev
 ```
 
-Demo login (from the seed script — replace with real values once seeded):
+Open [http://localhost:3000](http://localhost:3000).
+
+---
+
+## Demo Credentials (seeded)
+
+All accounts access the same centralized, global enterprise inventory ledger in real time:
+
+| Role | Login ID | Password | Access Level |
+|------|----------|----------|--------------|
+| **Admin (Quick Demo)** | `demoadmin` | `admin123` | Full administrative control & validation |
+| **Warehouse Worker (Quick Demo)** | `demoworker` | `worker123` | Floor operations & pick/pack workflow |
+| Director of Operations | `admin01` | `Admin@1234` | Full enterprise oversight |
+| Inventory Manager | `mgr001` | `Manager@1234` | Stock approvals & adjustments |
+| Warehouse Staff | `staff01` | `Staff@1234` | Receipt & dispatch execution |
+
+---
+
+## Seeded Enterprise Dataset
+
+The system includes a pre-populated, verified enterprise database:
+- **3 Warehouses**: `WH` (Chicago Central Hub), `ECOM` (Newark Fulfillment), `WEST` (Reno Distribution).
+- **13 Locations**: 10 Physical bays/racks/cold vault (2–8°C) + 3 Virtual locations (`VENDOR`, `CUSTOMER`, `INVLOSS`).
+- **7 Product Categories**: Electronics, Office Furniture, Industrial Hardware, Raw Materials, Packaging, Warehouse Equipment, Safety & PPE.
+- **24 Catalog Products**: 19 in healthy stock, 3 in low stock warnings (`SENS-IOT-01`, `FORK-SCALE-01`, `RESP-N95-PRO`), and 2 out of stock (`LITH-BAT-48V`, `MOTOR-STEP-24V`).
+- **11 Corporate Contacts**: 5 Vendors, 5 Customers, 1 Dual partner (`Azure Interior`).
+- **28 Operations**: Receipts, Deliveries, Internal Transfers, and Adjustments across `DONE`, `READY`, `WAITING`, and `DRAFT` statuses.
+- **32+ Immutable Stock Moves**: Complete double-entry ledger records visible in `/move-history` conserving $\Delta = 0.00$.
+- **6 Global System Alerts**: Real-time notifications for low stock, critical stockouts, and overdue receipts.
+
+---
+
+## Project Structure
+
 ```
-Login ID: manager01
-Password: Demo@1234
+StockSense/
+├── docs/                  # Project specification (read before coding)
+├── CLAUDE.md              # AI agent operating instructions
+├── docker-compose.yml     # Postgres for local dev
+├── .github/               # CI workflow + PR/issue templates
+├── backend/               # Express + TypeScript API
+│   ├── prisma/            # Schema, migrations, seed
+│   └── src/               # Modular route → controller → service → repository
+├── frontend/              # Next.js 14 App Router
+│   └── src/               # App, components, hooks, lib
+└── shared/                # Shared types/enums
 ```
 
-## Team & roles
+---
 
-| Person | Lane | Docs |
-|---|---|---|
-| Person A | Backend & Database Lead | `docs/04`, `docs/05` |
-| Person B | Frontend & Design System Lead | `docs/06` |
-| Person C | Integration, Real-Time & Quality Lead | `docs/09`, `docs/10` |
+## Documentation
 
-Full phase-by-phase ownership: [`docs/07-roles-and-phase-plan.md`](./docs/07-roles-and-phase-plan.md).
-Live contribution tracker: [`docs/08-git-workflow-and-contributions.md`](./docs/08-git-workflow-and-contributions.md) §7.
+All specs are in `docs/`. Read in order:
 
-## License
-
-Built for the Odoo Hiring Hackathon. All content and design is original to the team.
+1. [01 — Problem Statement & Scope](docs/01-problem-statement-and-scope.md)
+2. [02 — Wireframes & UX Flows](docs/02-wireframes-and-ux-flows.md)
+3. [03 — Architecture & Tech Stack](docs/03-architecture-and-tech-stack.md)
+4. [04 — Database Schema](docs/04-database-schema.md)
+5. [05 — API Specification](docs/05-api-specification.md)
+6. [06 — Design System](docs/06-design-system-launchdarkly.md)
+7. [07 — Roles & Phase Plan](docs/07-roles-and-phase-plan.md)
+8. [08 — Git Workflow](docs/08-git-workflow-and-contributions.md)
+9. [09 — Validation & Security](docs/09-validation-and-security.md)
+10. [10 — Testing & Demo Script](docs/10-testing-and-demo-script.md)

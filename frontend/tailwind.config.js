@@ -14,7 +14,21 @@ module.exports = {
           DEFAULT: "#405BFF",
           hover: "#3349D6",
         },
-        ink: "#191919",
+        lime: {
+          DEFAULT: "#DDFF46",
+          hover: "#C8F902",
+          dark: "#1A2204",
+          light: "#EEFFA1",
+          muted: "#BCE610",
+        },
+        ink: "#121212",
+        dark: {
+          bg: "#0C0D0E",
+          surface: "#121316",
+          card: "#18191D",
+          elevated: "#212228",
+          border: "#2A2B33",
+        },
         surface: "#FFFFFF",
         muted: {
           1: "#F7F7F8",

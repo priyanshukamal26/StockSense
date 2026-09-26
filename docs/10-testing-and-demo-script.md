@@ -14,13 +14,13 @@
 ## 2. Live demo script (rehearsed by Person C, referenced by everyone)
 
 This is the PDF's "Simplified Example to Understand Inventory Flow," turned into a click-by-click script for
-judging. Run it against the seeded demo data (`STEEL001` product, `WH` warehouse, `WH/Stock1` location,
-`Production Rack` location).
+judging. Run it against the seeded demo data (`STEEL-ROD-25` product, `WH` warehouse, `WH/Stock1` location,
+`WH/ProdRack` location).
 
 | Step | Screen | Action | Expected result |
 |---|---|---|---|
-| 0 | Login | Sign in as the seeded Inventory Manager | Redirect to Dashboard; KPI cards show current pending counts |
-| 1 | Operations → Receipt | Click **NEW**, set Receive From = vendor contact, add line `Steel Rod` qty `100`, Save | Status `Draft`, reference `WH/IN/000x` assigned |
+| 0 | Login | Sign in as Admin (`demoadmin` / `admin123`) or Inventory Manager (`mgr001` / `Manager@1234`) | Redirect to Dashboard; KPI cards show current pending counts & live telemetry |
+| 1 | Operations → Receipt | Click **NEW**, set Receive From = vendor contact, add line `Cold-Rolled Carbon Steel Rod` qty `100`, Save | Status `Draft`, reference `WH/IN/000x` assigned |
 | 1b | Receipt detail | Click **To Do**, then **Validate** | Status → `Ready` → `Done`; toast confirms; Stock view shows Steel `on_hand +100` at `WH/Stock1` |
 | 2 | Operations → Adjustment *(internal transfer)* | Click **NEW**, From `WH/Stock1` → To `Production Rack`, qty `100`, Validate | Total Steel stock unchanged; `WH/Stock1` −100, `Production Rack` +100; Move History shows one green + one row for the transfer |
 | 3 | Operations → Delivery | Click **NEW**, Delivery Address = customer contact, line `Steel Rod` qty `20`, Validate | Status → `Done`; `Production Rack` stock −20; Move History shows a red **OUT** row |

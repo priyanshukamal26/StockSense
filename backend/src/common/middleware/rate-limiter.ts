@@ -15,7 +15,7 @@ export const authLimiter = rateLimit({
       message: "Too many attempts. Please try again in 15 minutes.",
     },
   },
-  skip: () => process.env.NODE_ENV === "test",
+  skip: () => process.env.NODE_ENV === "test" || process.env.NODE_ENV === "development",
 });
 
 /**

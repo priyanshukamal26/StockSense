@@ -104,31 +104,38 @@ export default function LocationsPage() {
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto animate-fade-in">
-      {/* Header with verbatim caption from wireframe */}
+      {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="page-title">Locations</h1>
-          <p className="text-sm mt-0.5 text-gray-500 italic">
-            &ldquo;This holds the multiple locations of warehouse, rooms, etc.&rdquo;
+          <h1 className="text-2xl font-bold tracking-tight text-white font-mono flex items-center gap-3">
+            Locations & Sub-Zones
+            <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-[#18191D] border border-[#212228] text-slate-400 font-normal">
+              {locations.length} Locations
+            </span>
+          </h1>
+          <p className="text-xs mt-1 text-slate-400">
+            Define specific storage bays, virtual partner locations, and damage loss accounts
           </p>
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="btn-primary flex items-center gap-2"
+          className="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-[#DDFF46] text-black hover:bg-[#C8F902] transition-colors flex items-center gap-2 shadow-sm"
         >
-          <Plus size={16} /> New Location
+          <Plus size={15} /> New Location ➔
         </button>
       </div>
 
       {/* Add Location Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between border-b pb-3">
-              <h3 className="text-base font-bold text-gray-900">Add Location</h3>
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-[#121316] border border-[#212228] rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 text-white animate-scale-in">
+            <div className="flex items-center justify-between border-b border-[#212228] pb-3">
+              <h3 className="text-base font-bold text-white font-mono flex items-center gap-2">
+                <span className="text-[#DDFF46]">➔</span> Add Location
+              </h3>
               <button
                 onClick={() => setShowAddModal(false)}
-                className="p-1 rounded-lg text-gray-400 hover:text-gray-700"
+                className="p-1 rounded-full text-slate-400 hover:text-white hover:bg-[#18191D] transition-colors"
               >
                 <X size={18} />
               </button>
@@ -136,44 +143,41 @@ export default function LocationsPage() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold uppercase text-gray-700 mb-1">
+                <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 mb-1">
                   Name *
                 </label>
                 <input
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   placeholder="e.g. WH/Stock1, Rack A, Cold Storage"
-                  className="w-full px-3 py-2 text-sm rounded-lg border outline-none"
-                  style={{ borderColor: "var(--muted-2)" }}
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-[#2A2B33] bg-[#0C0D0E] text-white outline-none focus:border-[#DDFF46] transition-colors"
                   required
                   autoFocus
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase text-gray-700 mb-1">
+                <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 mb-1">
                   Short Code *
                 </label>
                 <input
                   value={form.shortCode}
                   onChange={(e) => setForm({ ...form, shortCode: e.target.value.toUpperCase() })}
                   placeholder="e.g. STOCK1, RACK-A"
-                  className="w-full px-3 py-2 text-sm rounded-lg border outline-none font-mono uppercase"
-                  style={{ borderColor: "var(--muted-2)" }}
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-[#2A2B33] bg-[#0C0D0E] text-[#DDFF46] outline-none font-mono uppercase focus:border-[#DDFF46] transition-colors"
                   maxLength={15}
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase text-gray-700 mb-1">
+                <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 mb-1">
                   Warehouse *
                 </label>
                 <select
                   value={form.warehouseId}
                   onChange={(e) => setForm({ ...form, warehouseId: e.target.value })}
-                  className="w-full px-3 py-2 text-sm rounded-lg border outline-none bg-white"
-                  style={{ borderColor: "var(--muted-2)" }}
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-[#2A2B33] bg-[#0C0D0E] text-white outline-none focus:border-[#DDFF46] transition-colors"
                   required
                 >
                   <option value="">Select Warehouse...</option>
@@ -186,14 +190,13 @@ export default function LocationsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase text-gray-700 mb-1">
+                <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 mb-1">
                   Location Type
                 </label>
                 <select
                   value={form.locationType}
                   onChange={(e) => setForm({ ...form, locationType: e.target.value })}
-                  className="w-full px-3 py-2 text-sm rounded-lg border outline-none bg-white"
-                  style={{ borderColor: "var(--muted-2)" }}
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-[#2A2B33] bg-[#0C0D0E] text-white outline-none focus:border-[#DDFF46] transition-colors"
                 >
                   <option value="INTERNAL">Internal Storage (Racks/Rooms/Stock)</option>
                   <option value="VENDOR">Vendor (Virtual Source for Receipts)</option>
@@ -202,18 +205,18 @@ export default function LocationsPage() {
                 </select>
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-3 border-t">
+              <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#212228]">
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="btn-outline"
+                  className="px-4 py-2 rounded-full text-xs font-semibold text-slate-400 hover:text-white border border-[#2A2B33] hover:bg-[#18191D] transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="btn-primary"
+                  className="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-[#DDFF46] text-black hover:bg-[#C8F902] transition-colors shadow-sm disabled:opacity-50"
                 >
                   {submitting ? "Saving..." : "Create Location"}
                 </button>
@@ -224,27 +227,24 @@ export default function LocationsPage() {
       )}
 
       {/* Locations Table */}
-      <div className="ss-card !p-0 overflow-hidden">
+      <div className="rounded-2xl border border-[#212228] bg-[#121316] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr
-                className="border-b"
-                style={{ borderColor: "var(--muted-2)", background: "var(--muted-1)" }}
-              >
-                <th className="text-left px-5 py-3.5 text-xs font-bold uppercase tracking-wider text-gray-600">
+              <tr className="border-b border-[#212228] bg-[#18191D]">
+                <th className="text-left px-5 py-3.5 text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
                   Location Name
                 </th>
-                <th className="text-left px-5 py-3.5 text-xs font-bold uppercase tracking-wider text-gray-600">
+                <th className="text-left px-5 py-3.5 text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
                   Short Code
                 </th>
-                <th className="text-left px-5 py-3.5 text-xs font-bold uppercase tracking-wider text-gray-600">
+                <th className="text-left px-5 py-3.5 text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
                   Warehouse
                 </th>
-                <th className="text-left px-5 py-3.5 text-xs font-bold uppercase tracking-wider text-gray-600">
+                <th className="text-left px-5 py-3.5 text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
                   Type
                 </th>
-                <th className="text-center px-5 py-3.5 text-xs font-bold uppercase tracking-wider text-gray-600 w-24">
+                <th className="text-center px-5 py-3.5 text-xs font-mono font-bold uppercase tracking-wider text-slate-400 w-24">
                   Actions
                 </th>
               </tr>
@@ -252,17 +252,17 @@ export default function LocationsPage() {
             <tbody>
               {loading ? (
                 Array.from({ length: 4 }).map((_, i) => (
-                  <tr key={i} className="border-b" style={{ borderColor: "var(--muted-2)" }}>
+                  <tr key={i} className="border-b border-[#212228]">
                     {Array.from({ length: 5 }).map((_, j) => (
                       <td key={j} className="px-5 py-4">
-                        <div className="skeleton h-4 w-24 rounded" />
+                        <div className="h-4 w-24 rounded bg-[#18191D] animate-pulse" />
                       </td>
                     ))}
                   </tr>
                 ))
               ) : locations.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="text-center py-16 text-gray-500 text-sm">
+                  <td colSpan={5} className="text-center py-16 text-slate-500 text-sm">
                     No locations found. Add your first warehouse location.
                   </td>
                 </tr>
@@ -270,30 +270,29 @@ export default function LocationsPage() {
                 locations.map((loc) => (
                   <tr
                     key={loc.id}
-                    className="border-b hover:bg-gray-50 transition-colors"
-                    style={{ borderColor: "var(--muted-2)" }}
+                    className="border-b border-[#212228] hover:bg-[#18191D]/60 transition-colors"
                   >
-                    <td className="px-5 py-3.5 font-semibold text-gray-900">
+                    <td className="px-5 py-3.5 font-semibold text-white">
                       <div className="flex items-center gap-2">
-                        <MapPin size={15} className="text-blue-600 flex-shrink-0" />
+                        <MapPin size={15} className="text-[#DDFF46] flex-shrink-0" />
                         {loc.name}
                       </div>
                     </td>
-                    <td className="px-5 py-3.5 font-mono text-xs font-medium text-gray-600">
+                    <td className="px-5 py-3.5 font-mono text-xs font-bold text-[#DDFF46]">
                       {loc.shortCode}
                     </td>
-                    <td className="px-5 py-3.5 text-xs text-gray-800">
-                      {loc.warehouse?.name || <span className="text-gray-400">—</span>}
+                    <td className="px-5 py-3.5 text-xs text-slate-300">
+                      {loc.warehouse?.name || <span className="text-slate-500">—</span>}
                     </td>
                     <td className="px-5 py-3.5">
-                      <span className="px-2 py-0.5 text-[11px] font-semibold rounded-full bg-gray-100 text-gray-700">
+                      <span className="px-2.5 py-0.5 text-[11px] font-mono font-semibold rounded-full bg-[#18191D] border border-[#212228] text-slate-300">
                         {loc.locationType}
                       </span>
                     </td>
                     <td className="px-5 py-3.5 text-center">
                       <button
                         onClick={() => handleDelete(loc.id, loc.name)}
-                        className="p-1 rounded text-gray-400 hover:text-red-600 transition-colors"
+                        className="p-1.5 rounded-full text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
                         title="Delete location"
                       >
                         <Trash2 size={15} />

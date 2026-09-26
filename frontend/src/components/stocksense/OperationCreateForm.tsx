@@ -197,10 +197,10 @@ export default function OperationCreateForm({
   if (loading) {
     return (
       <div className="space-y-6 max-w-4xl mx-auto">
-        <div className="skeleton h-8 w-48 rounded" />
-        <div className="ss-card space-y-4">
-          <div className="skeleton h-12 rounded" />
-          <div className="skeleton h-24 rounded" />
+        <div className="h-8 w-48 rounded bg-[#18191D] animate-pulse" />
+        <div className="rounded-2xl border border-[#212228] bg-[#121316] p-6 space-y-4">
+          <div className="h-12 rounded bg-[#18191D] animate-pulse" />
+          <div className="h-24 rounded bg-[#18191D] animate-pulse" />
         </div>
       </div>
     );
@@ -212,31 +212,32 @@ export default function OperationCreateForm({
       <div className="flex items-center gap-4">
         <Link
           href={backHref}
-          className="p-2 rounded-lg border hover:bg-gray-100 transition-colors"
-          style={{ borderColor: "var(--muted-2)" }}
+          className="p-2 rounded-full border border-[#212228] bg-[#121316] text-slate-300 hover:text-white hover:bg-[#18191D] transition-colors"
+          title="Back"
         >
           <ArrowLeft size={18} />
         </Link>
         <div>
-          <h1 className="page-title">{title}</h1>
-          <p className="text-sm mt-0.5" style={{ color: "var(--muted-3)" }}>
-            Fill in the details to create a new {operationType.toLowerCase().replace("_", " ")}
+          <h1 className="text-2xl font-bold tracking-tight text-white font-mono flex items-center gap-2">
+            <span className="text-[#DDFF46]">➔</span> {title}
+          </h1>
+          <p className="text-xs mt-0.5 text-slate-400">
+            Fill in the details to initialize a new {operationType.toLowerCase().replace("_", " ")} record
           </p>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="ss-card space-y-6">
+      <form onSubmit={handleSubmit} className="rounded-2xl border border-[#212228] bg-[#121316] p-6 space-y-6 text-white shadow-xl">
         {/* Core fields */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1.5">
+            <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
               Warehouse *
             </label>
             <select
               value={selectedWarehouseId}
               onChange={(e) => setSelectedWarehouseId(e.target.value)}
-              className="w-full px-3 py-2 text-sm rounded-lg border outline-none bg-white"
-              style={{ borderColor: "var(--muted-2)" }}
+              className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-[#2A2B33] bg-[#0C0D0E] text-white outline-none focus:border-[#DDFF46] transition-colors"
               required
             >
               {warehouses.map((w) => (
@@ -248,28 +249,26 @@ export default function OperationCreateForm({
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1.5">
+            <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
               Scheduled Date *
             </label>
             <input
               type="date"
               value={scheduledDate}
               onChange={(e) => setScheduledDate(e.target.value)}
-              className="w-full px-3 py-2 text-sm rounded-lg border outline-none bg-white"
-              style={{ borderColor: "var(--muted-2)" }}
+              className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-[#2A2B33] bg-[#0C0D0E] text-white outline-none focus:border-[#DDFF46] transition-colors font-mono"
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1.5">
+            <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
               Source Location (From) *
             </label>
             <select
               value={sourceLocationId}
               onChange={(e) => setSourceLocationId(e.target.value)}
-              className="w-full px-3 py-2 text-sm rounded-lg border outline-none bg-white"
-              style={{ borderColor: "var(--muted-2)" }}
+              className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-[#2A2B33] bg-[#0C0D0E] text-white outline-none focus:border-[#DDFF46] transition-colors"
               required
             >
               <option value="">Select source location...</option>
@@ -282,14 +281,13 @@ export default function OperationCreateForm({
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1.5">
+            <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
               Destination Location (To) *
             </label>
             <select
               value={destinationLocationId}
               onChange={(e) => setDestinationLocationId(e.target.value)}
-              className="w-full px-3 py-2 text-sm rounded-lg border outline-none bg-white"
-              style={{ borderColor: "var(--muted-2)" }}
+              className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-[#2A2B33] bg-[#0C0D0E] text-white outline-none focus:border-[#DDFF46] transition-colors"
               required
             >
               <option value="">Select destination location...</option>
@@ -303,32 +301,32 @@ export default function OperationCreateForm({
         </div>
 
         {/* Product Lines */}
-        <div className="space-y-3 pt-4 border-t" style={{ borderColor: "var(--muted-2)" }}>
+        <div className="space-y-3 pt-4 border-t border-[#212228]">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">
+            <h3 className="text-xs font-mono font-bold text-white uppercase tracking-wider">
               Product Lines
             </h3>
             <button
               type="button"
               onClick={addLine}
-              className="btn-outline text-xs py-1.5 flex items-center gap-1.5"
+              className="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-[#18191D] border border-[#212228] text-[#DDFF46] hover:bg-[#1A2204] hover:border-[#DDFF46]/40 transition-colors flex items-center gap-1.5"
             >
               <Plus size={14} /> Add Product
             </button>
           </div>
 
-          <div className="border rounded-xl overflow-hidden" style={{ borderColor: "var(--muted-2)" }}>
+          <div className="border border-[#212228] rounded-xl overflow-hidden bg-[#0C0D0E]">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b" style={{ borderColor: "var(--muted-2)", background: "var(--muted-1)" }}>
-                  <th className="text-left px-4 py-3 text-xs font-semibold uppercase text-gray-500">
+                <tr className="border-b border-[#212228] bg-[#18191D]">
+                  <th className="text-left px-4 py-3 text-xs font-mono font-semibold uppercase tracking-wider text-slate-400">
                     Product
                   </th>
-                  <th className="text-right px-4 py-3 text-xs font-semibold uppercase text-gray-500 w-36">
+                  <th className="text-right px-4 py-3 text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 w-36">
                     Demand Qty
                   </th>
                   {operationType === "DELIVERY" && (
-                    <th className="text-right px-4 py-3 text-xs font-semibold uppercase text-gray-500 w-36">
+                    <th className="text-right px-4 py-3 text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 w-36">
                       Available Stock
                     </th>
                   )}
@@ -347,17 +345,15 @@ export default function OperationCreateForm({
                   return (
                     <tr
                       key={idx}
-                      className={`border-b transition-colors ${
-                        isOutOfStock ? "bg-red-50" : "hover:bg-gray-50"
+                      className={`border-b border-[#212228] transition-colors ${
+                        isOutOfStock ? "bg-rose-950/20" : "hover:bg-[#18191D]/60"
                       }`}
-                      style={{ borderColor: isOutOfStock ? "#FECACA" : "var(--muted-2)" }}
                     >
                       <td className="px-4 py-3">
                         <select
                           value={line.productId}
                           onChange={(e) => updateLine(idx, "productId", e.target.value)}
-                          className="w-full px-2.5 py-1.5 text-sm rounded border bg-white outline-none"
-                          style={{ borderColor: "var(--muted-2)" }}
+                          className="w-full px-3 py-1.5 text-sm rounded-lg border border-[#2A2B33] bg-[#0C0D0E] text-white outline-none focus:border-[#DDFF46] transition-colors"
                           required
                         >
                           <option value="">Select product...</option>
@@ -368,7 +364,7 @@ export default function OperationCreateForm({
                           ))}
                         </select>
                         {isOutOfStock && (
-                          <div className="text-xs text-red-600 font-medium mt-1 flex items-center gap-1">
+                          <div className="text-xs text-rose-400 font-semibold mt-1 flex items-center gap-1">
                             <AlertTriangle size={12} /> Demand exceeds available free stock ({stock || 0})
                           </div>
                         )}
@@ -382,19 +378,18 @@ export default function OperationCreateForm({
                           onChange={(e) =>
                             updateLine(idx, "demandQty", parseFloat(e.target.value) || 0)
                           }
-                          className="w-full px-2.5 py-1.5 text-sm rounded border text-right bg-white outline-none"
-                          style={{ borderColor: "var(--muted-2)" }}
+                          className="w-full px-3 py-1.5 text-sm rounded-lg border border-[#2A2B33] text-right bg-[#0C0D0E] text-white outline-none focus:border-[#DDFF46] transition-colors font-mono font-bold"
                           required
                         />
                       </td>
                       {operationType === "DELIVERY" && (
-                        <td className="px-4 py-3 text-right font-medium">
+                        <td className="px-4 py-3 text-right font-mono font-semibold">
                           {line.productId ? (
-                            <span className={isOutOfStock ? "text-red-700 font-bold" : "text-emerald-700"}>
+                            <span className={isOutOfStock ? "text-rose-400 font-bold" : "text-[#DDFF46]"}>
                               {stock ?? 0}
                             </span>
                           ) : (
-                            <span className="text-gray-400">—</span>
+                            <span className="text-slate-500">—</span>
                           )}
                         </td>
                       )}
@@ -403,7 +398,7 @@ export default function OperationCreateForm({
                           type="button"
                           onClick={() => removeLine(idx)}
                           disabled={lines.length === 1}
-                          className="p-1 rounded text-gray-400 hover:text-red-600 disabled:opacity-30 transition-colors"
+                          className="p-1 rounded-full text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 disabled:opacity-20 transition-colors"
                         >
                           <Trash2 size={16} />
                         </button>
@@ -418,7 +413,7 @@ export default function OperationCreateForm({
 
         {/* Notes */}
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1.5">
+          <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
             Notes / Reference Info (Optional)
           </label>
           <textarea
@@ -426,22 +421,21 @@ export default function OperationCreateForm({
             onChange={(e) => setNotes(e.target.value)}
             rows={2}
             placeholder="Add any internal instructions or remarks..."
-            className="w-full px-3 py-2 text-sm rounded-lg border outline-none bg-white"
-            style={{ borderColor: "var(--muted-2)" }}
+            className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-[#2A2B33] bg-[#0C0D0E] text-white outline-none focus:border-[#DDFF46] transition-colors"
           />
         </div>
 
         {/* Actions */}
-        <div className="flex items-center justify-end gap-3 pt-4 border-t" style={{ borderColor: "var(--muted-2)" }}>
-          <Link href={backHref} className="btn-outline">
+        <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#212228]">
+          <Link href={backHref} className="px-4 py-2 rounded-full text-xs font-semibold text-slate-400 hover:text-white border border-[#2A2B33] hover:bg-[#18191D] transition-colors">
             Cancel
           </Link>
           <button
             type="submit"
             disabled={submitting}
-            className="btn-primary"
+            className="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-[#DDFF46] text-black hover:bg-[#C8F902] transition-colors shadow-sm disabled:opacity-50"
           >
-            {submitting ? "Creating..." : "Save as Draft"}
+            {submitting ? "Creating..." : "Save as Draft ➔"}
           </button>
         </div>
       </form>

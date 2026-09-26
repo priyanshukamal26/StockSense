@@ -393,17 +393,40 @@ async function nextReference(tx, warehouseId: string, type: OperationType) {
 }
 ```
 
-## 6. Seed data (`backend/prisma/seed.ts`) — free, synthetic, matches the wireframes exactly
+## 6. Enterprise Seed Data (`backend/prisma/seed.ts`)
 
-No external dataset is required or used. The seed script creates:
-- 1 Admin user + 1 Inventory Manager + 1 Warehouse Staff account (credentials documented in `README.md`, not
-  committed as real secrets — use obviously-fake demo values).
-- 1 Warehouse (`WH`) with locations `WH/Stock1`, `WH/Stock2`, plus virtual `Vendor` and `Customer` locations.
-- 2 categories, 2 products (`DESK001` Desk, `TABLE001` Table — matching the wireframe's Stock table) **and**
-  a `STEEL001` Steel Rod product to run the PDF's canonical demo script end to end.
-- 1 demo contact ("Azure Interior", type `BOTH`).
-- The exact demo rows shown in the wireframes (`WH/IN/0001`, `WH/OUT/0002`, etc.) so the UI matches the mock
-  on first run.
+The database is populated with a realistic, multi-warehouse operational dataset:
+- **5 User Accounts**:
+  - `demoadmin` / `admin123` (Admin)
+  - `demoworker` / `worker123` (Warehouse Staff)
+  - `admin01` / `Admin@1234` (Director of Operations)
+  - `mgr001` / `Manager@1234` (Inventory Manager)
+  - `staff01` / `Staff@1234` (Warehouse Staff)
+- **3 Warehouses**:
+  - `WH`: Central Logistics Hub (Chicago, IL)
+  - `ECOM`: East Coast Fulfillment Hub (Newark, NJ)
+  - `WEST`: West Distribution Center (Reno, NV)
+- **13 Storage Locations**:
+  - 10 Physical bays/racks: `WH/Stock1`, `WH/Stock2`, `WH/ProdRack`, `WH/ColdVault` (2–8°C), `ECOM-Stock`, `ECOM-Pack`, `ECOM-RMA`, `WEST-Stock`, `WEST-Bulk`, `WEST-Transit`.
+  - 3 Virtual locations: `VENDOR` (Inbound), `CUSTOMER` (Outbound), `INVLOSS` (Shrinkage/Adjustment).
+- **7 Product Categories**:
+  - Electronics & Audio, Office Furniture, Industrial Hardware, Raw Materials & Metals, Packaging Supplies, Warehouse Equipment, Safety & PPE.
+- **24 Diverse Catalog Products**:
+  - Realistic SKUs, costs, reorder points, and units.
+  - 19 products in healthy stock.
+  - 3 products with active Low Stock warnings (`SENS-IOT-01`, `FORK-SCALE-01`, `RESP-N95-PRO`).
+  - 2 products Out of Stock (`LITH-BAT-48V`, `MOTOR-STEP-24V`) to verify out-of-stock guard rails and backorders.
+- **11 Corporate Contacts**:
+  - 5 Vendors (Apex Industrial, Shenzhen MicroTech, Global Metal, EcoPack, Precision Ergonomics).
+  - 5 Customers (Starlight Robotics, OmniRetail, Horizon Cloud, Vanguard Aerospace, Nexus Workspaces).
+  - 1 Partner (`Azure Interior`).
+- **28 Operations**:
+  - Receipts (`WH/IN`, `ECOM/IN`, `WEST/IN`), Deliveries (`WH/OUT`, `ECOM/OUT`, `WEST/OUT`), Internal Transfers (`WH/INT`, `ECOM/INT`, `WEST/INT`), and Adjustments (`WH/ADJ`).
+  - Spread across `DONE`, `READY`, `WAITING`, and `DRAFT` statuses with past, present, and future scheduled dates (activating the "Late" and "Waiting" dashboard telemetry).
+- **32+ Immutable Stock Moves**:
+  - Strict double-entry ledger entries in `StockMove` matching every completed operation and baseline inventory, conserving $\Delta = 0.00$.
+- **6 Global System Notifications**:
+  - Low stock warnings, critical stockout alerts, and overdue delivery notices broadcasted enterprise-wide.
 
 ## 7. Migration discipline
 
@@ -415,4 +438,6 @@ No external dataset is required or used. The seed script creates:
 ## 8. Changelog
 | Date | Change | Reason |
 |---|---|---|
-| _(fill in as the schema evolves)_ | | |
+| 2026-09-26 | Expanded seed dataset to 3 warehouses, 13 locations, 24 products, 28 operations, 32+ stock moves | Populate lively enterprise dataset with realistic operational velocity, low-stock alerts, and double-entry moves across all accounts |
+| 2026-09-26 | Verified centralized global ledger architecture | All accounts view and mutate the same shared enterprise database state |
+

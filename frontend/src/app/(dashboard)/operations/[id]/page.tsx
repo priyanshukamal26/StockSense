@@ -148,10 +148,10 @@ export default function OperationDetailPage() {
   if (loading) {
     return (
       <div className="space-y-6">
-        <div className="skeleton h-8 w-48 rounded" />
-        <div className="ss-card space-y-4">
-          <div className="skeleton h-6 w-1/3 rounded" />
-          <div className="skeleton h-24 rounded" />
+        <div className="h-8 w-48 rounded-lg bg-[#18191D] animate-pulse" />
+        <div className="rounded-2xl border border-[#212228] bg-[#121316] p-6 space-y-4">
+          <div className="h-6 w-1/3 rounded bg-[#18191D] animate-pulse" />
+          <div className="h-24 rounded bg-[#18191D] animate-pulse" />
         </div>
       </div>
     );
@@ -159,9 +159,9 @@ export default function OperationDetailPage() {
 
   if (!operation) {
     return (
-      <div className="text-center py-20 space-y-4">
-        <p className="text-lg font-medium text-gray-700">Operation not found</p>
-        <Link href="/dashboard" className="btn-primary inline-flex items-center gap-2">
+      <div className="text-center py-20 space-y-4 rounded-2xl border border-[#212228] bg-[#121316]">
+        <p className="text-lg font-medium text-slate-300">Operation not found</p>
+        <Link href="/dashboard" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-[#DDFF46] text-black hover:bg-[#C8F902] transition-colors">
           <ArrowLeft size={16} /> Return to Dashboard
         </Link>
       </div>
@@ -185,25 +185,24 @@ export default function OperationDetailPage() {
         <div className="flex items-center gap-3">
           <button
             onClick={() => router.back()}
-            className="p-2 rounded-lg border hover:bg-gray-100 transition-colors"
-            style={{ borderColor: "var(--muted-2)" }}
+            className="p-2 rounded-full border border-[#212228] bg-[#121316] text-slate-300 hover:text-white hover:bg-[#18191D] transition-colors"
             title="Back"
           >
             <ArrowLeft size={18} />
           </button>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-bold tracking-tight text-gray-900 font-mono">
+              <h1 className="text-2xl font-bold tracking-tight text-white font-mono">
                 {operation.reference}
               </h1>
               <StatusBadge status={operation.status} />
               {operation.isLate && operation.status !== "DONE" && operation.status !== "CANCELLED" && (
-                <span className="text-xs px-2 py-0.5 rounded font-semibold bg-red-100 text-red-700 border border-red-200">
+                <span className="text-[11px] px-2.5 py-0.5 rounded-full font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20">
                   Late
                 </span>
               )}
             </div>
-            <p className="text-sm mt-0.5" style={{ color: "var(--muted-3)" }}>
+            <p className="text-xs mt-0.5 text-slate-400">
               {getOperationTypeLabel(operation.operationType)} · Scheduled for {formatDate(operation.scheduledDate)}
             </p>
           </div>
@@ -216,16 +215,16 @@ export default function OperationDetailPage() {
               <button
                 onClick={handleMarkTodo}
                 disabled={actionLoading}
-                className="btn-primary flex items-center gap-2"
+                className="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-[#DDFF46] text-black hover:bg-[#C8F902] transition-colors flex items-center gap-2 shadow-sm"
               >
-                <Play size={16} /> Mark as To Do
+                <Play size={14} /> Mark as To Do
               </button>
               <button
                 onClick={handleCancel}
                 disabled={actionLoading}
-                className="btn-outline text-red-600 border-red-200 hover:bg-red-50 flex items-center gap-2"
+                className="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-rose-400 border border-rose-500/30 hover:bg-rose-500/10 transition-colors flex items-center gap-2"
               >
-                <XCircle size={16} /> Cancel
+                <XCircle size={14} /> Cancel
               </button>
             </>
           )}
@@ -235,16 +234,16 @@ export default function OperationDetailPage() {
               <button
                 onClick={handleMarkTodo}
                 disabled={actionLoading}
-                className="btn-primary flex items-center gap-2"
+                className="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-[#DDFF46] text-black hover:bg-[#C8F902] transition-colors flex items-center gap-2 shadow-sm"
               >
-                <Clock size={16} /> Re-check Availability
+                <Clock size={14} /> Re-check Availability
               </button>
               <button
                 onClick={handleCancel}
                 disabled={actionLoading}
-                className="btn-outline text-red-600 border-red-200 hover:bg-red-50 flex items-center gap-2"
+                className="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-rose-400 border border-rose-500/30 hover:bg-rose-500/10 transition-colors flex items-center gap-2"
               >
-                <XCircle size={16} /> Cancel
+                <XCircle size={14} /> Cancel
               </button>
             </>
           )}
@@ -254,23 +253,22 @@ export default function OperationDetailPage() {
               <button
                 onClick={handleValidate}
                 disabled={actionLoading}
-                className="btn-primary flex items-center gap-2"
-                style={{ background: "#10B981" }}
+                className="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-[#DDFF46] text-black hover:bg-[#C8F902] transition-colors flex items-center gap-2 shadow-sm"
               >
-                <CheckCircle size={16} /> Validate
+                <CheckCircle size={14} /> Validate Operation
               </button>
               <button
                 onClick={handlePrint}
-                className="btn-outline flex items-center gap-2"
+                className="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-white border border-[#2A2B33] bg-[#121316] hover:bg-[#18191D] transition-colors flex items-center gap-2"
               >
-                <Printer size={16} /> Print
+                <Printer size={14} /> Print
               </button>
               <button
                 onClick={handleCancel}
                 disabled={actionLoading}
-                className="btn-outline text-red-600 border-red-200 hover:bg-red-50 flex items-center gap-2"
+                className="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-rose-400 border border-rose-500/30 hover:bg-rose-500/10 transition-colors flex items-center gap-2"
               >
-                <XCircle size={16} /> Cancel
+                <XCircle size={14} /> Cancel
               </button>
             </>
           )}
@@ -278,9 +276,9 @@ export default function OperationDetailPage() {
           {operation.status === "DONE" && (
             <button
               onClick={handlePrint}
-              className="btn-primary flex items-center gap-2"
+              className="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-[#DDFF46] text-black hover:bg-[#C8F902] transition-colors flex items-center gap-2 shadow-sm"
             >
-              <Printer size={16} /> Print Receipt (A4)
+              <Printer size={14} /> Print Receipt (A4)
             </button>
           )}
         </div>
@@ -288,46 +286,46 @@ export default function OperationDetailPage() {
 
       {/* Out of stock warning banner if in WAITING status */}
       {operation.status === "WAITING" && (
-        <div className="p-4 rounded-xl border border-amber-200 bg-amber-50 text-amber-900 flex items-start gap-3">
-          <AlertTriangle size={20} className="text-amber-600 flex-shrink-0 mt-0.5" />
+        <div className="p-4 rounded-2xl border border-amber-500/30 bg-amber-950/30 text-amber-200 flex items-start gap-3">
+          <AlertTriangle size={20} className="text-amber-400 flex-shrink-0 mt-0.5" />
           <div>
-            <h4 className="font-semibold text-sm">Waiting on stock availability</h4>
-            <p className="text-xs text-amber-800 mt-1">
+            <h4 className="font-semibold text-sm text-amber-200">Waiting on stock availability</h4>
+            <p className="text-xs text-amber-300/80 mt-1">
               One or more items in this operation currently exceed available stock at source location{" "}
-              <strong>{operation.sourceLocation.name}</strong>. Out-of-stock items are highlighted in red below.
+              <strong className="text-amber-100">{operation.sourceLocation.name}</strong>. Out-of-stock items are highlighted in red below.
             </p>
           </div>
         </div>
       )}
 
       {/* Main card */}
-      <div className="ss-card space-y-8 print:border-none print:shadow-none print:p-0">
+      <div className="rounded-2xl border border-[#212228] bg-[#121316] p-6 space-y-8 print:border-none print:shadow-none print:p-0 print:bg-white print:text-black">
         {/* Status Stepper */}
-        <div className="flex items-center justify-between border-b pb-6 print:hidden" style={{ borderColor: "var(--muted-2)" }}>
+        <div className="flex items-center justify-between border-b border-[#212228] pb-6 print:hidden">
           <div className="flex items-center gap-2">
-            <span className="text-xs uppercase font-semibold tracking-wider" style={{ color: "var(--muted-3)" }}>
+            <span className="text-[11px] uppercase font-mono font-semibold tracking-wider text-slate-400">
               Workflow Stage:
             </span>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 md:gap-3 bg-[#0C0D0E] border border-[#212228] p-1.5 rounded-full">
             {steps.map((st, i) => {
-              const isPast = currentStepIdx >= i;
+              const isPast = currentStepIdx > i;
               const isCurrent = operation.status === st;
               return (
                 <div key={st} className="flex items-center gap-2">
                   {i > 0 && (
                     <div
-                      className="w-8 h-0.5 rounded"
-                      style={{ background: isPast ? "var(--brand-primary)" : "var(--muted-2)" }}
+                      className="w-4 md:w-6 h-0.5 rounded-full"
+                      style={{ background: isPast ? "#DDFF46" : "#212228" }}
                     />
                   )}
                   <span
-                    className={`px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
+                    className={`px-3 py-1 rounded-full text-[10px] md:text-xs font-mono font-bold uppercase tracking-wider transition-all ${
                       isCurrent
-                        ? "bg-blue-600 text-white shadow-sm ring-2 ring-blue-200"
+                        ? "bg-[#DDFF46] text-black shadow-sm"
                         : isPast
-                        ? "bg-blue-50 text-blue-700"
-                        : "bg-gray-100 text-gray-400"
+                        ? "bg-[#1A2204] text-[#DDFF46] border border-[#DDFF46]/30"
+                        : "bg-[#18191D] text-slate-500"
                     }`}
                   >
                     {st}
@@ -340,88 +338,88 @@ export default function OperationDetailPage() {
 
         {/* Operation Header Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: "var(--muted-3)" }}>
+          <div className="p-3.5 rounded-xl border border-[#212228] bg-[#0C0D0E]/60">
+            <p className="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400">
               {operation.operationType === "RECEIPT"
                 ? "Receive From (Vendor)"
                 : operation.operationType === "DELIVERY"
                 ? "Delivery Address (Customer)"
                 : "Contact"}
             </p>
-            <p className="text-sm font-semibold text-gray-900 mt-1">
+            <p className="text-sm font-semibold text-white mt-1">
               {operation.contact?.name || "—"}
             </p>
             {operation.contact?.address && (
-              <p className="text-xs text-gray-500 mt-0.5">{operation.contact.address}</p>
+              <p className="text-xs text-slate-400 mt-0.5">{operation.contact.address}</p>
             )}
           </div>
 
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: "var(--muted-3)" }}>
+          <div className="p-3.5 rounded-xl border border-[#212228] bg-[#0C0D0E]/60">
+            <p className="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400">
               From (Source Location)
             </p>
-            <p className="text-sm font-semibold text-gray-900 mt-1">
+            <p className="text-sm font-semibold text-white mt-1">
               {operation.sourceLocation.name}
             </p>
-            <p className="text-xs text-gray-500 mt-0.5">
+            <p className="text-xs font-mono text-[#DDFF46] mt-0.5">
               Code: {operation.sourceLocation.shortCode}
             </p>
           </div>
 
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: "var(--muted-3)" }}>
+          <div className="p-3.5 rounded-xl border border-[#212228] bg-[#0C0D0E]/60">
+            <p className="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400">
               To (Destination Location)
             </p>
-            <p className="text-sm font-semibold text-gray-900 mt-1">
+            <p className="text-sm font-semibold text-white mt-1">
               {operation.destinationLocation.name}
             </p>
-            <p className="text-xs text-gray-500 mt-0.5">
+            <p className="text-xs font-mono text-[#DDFF46] mt-0.5">
               Code: {operation.destinationLocation.shortCode}
             </p>
           </div>
 
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: "var(--muted-3)" }}>
+          <div className="p-3.5 rounded-xl border border-[#212228] bg-[#0C0D0E]/60">
+            <p className="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400">
               Responsible
             </p>
-            <p className="text-sm font-semibold text-gray-900 mt-1">
+            <p className="text-sm font-semibold text-white mt-1">
               {operation.responsible.fullName}
             </p>
-            <p className="text-xs text-gray-500 mt-0.5">@{operation.responsible.loginId}</p>
+            <p className="text-xs text-slate-400 font-mono mt-0.5">@{operation.responsible.loginId}</p>
           </div>
         </div>
 
         {/* Products Lines Table */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-base font-bold text-gray-900">Products</h3>
-            <span className="text-xs text-gray-500">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-white">Line Items</h3>
+            <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-[#18191D] border border-[#212228] text-slate-400">
               {operation.lines.length} item{operation.lines.length !== 1 ? "s" : ""}
             </span>
           </div>
 
-          <div className="border rounded-xl overflow-hidden" style={{ borderColor: "var(--muted-2)" }}>
+          <div className="border border-[#212228] rounded-xl overflow-hidden bg-[#0C0D0E]">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b" style={{ borderColor: "var(--muted-2)", background: "var(--muted-1)" }}>
-                  <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                <tr className="border-b border-[#212228] bg-[#18191D]">
+                  <th className="text-left px-4 py-3 text-xs font-mono font-semibold uppercase tracking-wider text-slate-400">
                     Product
                   </th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                  <th className="text-left px-4 py-3 text-xs font-mono font-semibold uppercase tracking-wider text-slate-400">
                     SKU
                   </th>
-                  <th className="text-right px-4 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                  <th className="text-right px-4 py-3 text-xs font-mono font-semibold uppercase tracking-wider text-slate-400">
                     Demand Qty
                   </th>
                   {operation.operationType === "DELIVERY" && (
-                    <th className="text-right px-4 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                    <th className="text-right px-4 py-3 text-xs font-mono font-semibold uppercase tracking-wider text-slate-400">
                       Available In Stock
                     </th>
                   )}
-                  <th className="text-right px-4 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                  <th className="text-right px-4 py-3 text-xs font-mono font-semibold uppercase tracking-wider text-slate-400">
                     Done Qty
                   </th>
-                  <th className="text-center px-4 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                  <th className="text-center px-4 py-3 text-xs font-mono font-semibold uppercase tracking-wider text-slate-400">
                     Status
                   </th>
                 </tr>
@@ -437,22 +435,21 @@ export default function OperationDetailPage() {
                   return (
                     <tr
                       key={line.id}
-                      className={`border-b transition-colors ${
+                      className={`border-b border-[#212228] transition-colors ${
                         isOutOfStock
-                          ? "bg-red-50/80 border-red-200 text-red-900"
-                          : "hover:bg-gray-50 text-gray-800"
+                          ? "bg-rose-950/20 text-rose-200"
+                          : "hover:bg-[#18191D]/60 text-slate-200"
                       }`}
-                      style={{ borderColor: isOutOfStock ? "#FECACA" : "var(--muted-2)" }}
                     >
                       <td className="px-4 py-3 font-medium">
-                        <span className="text-gray-900">{line.product.name}</span>
+                        <span className="text-white font-semibold">{line.product.name}</span>
                         {isOutOfStock && (
-                          <div className="text-xs text-red-600 font-semibold mt-0.5 flex items-center gap-1">
+                          <div className="text-xs text-rose-400 font-semibold mt-0.5 flex items-center gap-1">
                             <AlertTriangle size={12} /> Out of Stock ({stock ? stock.freeToUse : 0} available)
                           </div>
                         )}
                       </td>
-                      <td className="px-4 py-3 font-mono text-xs text-gray-500">
+                      <td className="px-4 py-3 font-mono text-xs text-[#DDFF46]">
                         {line.product.sku}
                       </td>
                       <td className="px-4 py-3 text-right font-medium">
@@ -461,28 +458,28 @@ export default function OperationDetailPage() {
                       {operation.operationType === "DELIVERY" && (
                         <td className="px-4 py-3 text-right font-medium">
                           {stock ? (
-                            <span className={isOutOfStock ? "text-red-700 font-bold" : "text-emerald-700"}>
+                            <span className={isOutOfStock ? "text-rose-400 font-bold" : "text-[#DDFF46]"}>
                               {stock.freeToUse} {line.product.unitOfMeasure}
                             </span>
                           ) : (
-                            <span className="text-gray-400">—</span>
+                            <span className="text-slate-500">—</span>
                           )}
                         </td>
                       )}
-                      <td className="px-4 py-3 text-right font-semibold">
+                      <td className="px-4 py-3 text-right font-mono font-semibold text-white">
                         {operation.status === "DONE" ? Number(line.doneQty) : 0} {line.product.unitOfMeasure}
                       </td>
                       <td className="px-4 py-3 text-center">
                         {operation.status === "DONE" ? (
-                          <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">
-                            <CheckCircle size={12} /> Received
+                          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full">
+                            <CheckCircle size={12} /> Validated
                           </span>
                         ) : isOutOfStock ? (
-                          <span className="inline-flex items-center gap-1 text-xs font-semibold text-red-700 bg-red-100 px-2 py-0.5 rounded-full">
+                          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-rose-400 bg-rose-500/10 border border-rose-500/20 px-2.5 py-0.5 rounded-full">
                             <XCircle size={12} /> Insufficient Stock
                           </span>
                         ) : (
-                          <span className="text-xs text-gray-500">Pending</span>
+                          <span className="text-xs font-mono text-slate-500">Pending</span>
                         )}
                       </td>
                     </tr>
@@ -499,7 +496,7 @@ export default function OperationDetailPage() {
             <div>
               <p className="font-semibold text-gray-900">Authorized Signature:</p>
               <div className="border-b border-gray-400 mt-12 w-48" />
-              <p className="text-xs text-gray-500 mt-1">StockSense Warehouse Team</p>
+              <p className="text-xs text-gray-500 mt-1">StockSense Operations</p>
             </div>
             <div>
               <p className="font-semibold text-gray-900">Received / Inspected By:</p>

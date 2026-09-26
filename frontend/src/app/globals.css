@@ -8,9 +8,12 @@
     /* Brand */
     --brand-primary: #405bff;
     --brand-primary-hover: #3349d6;
+    --lime: #DDFF46;
+    --lime-hover: #C8F902;
+    --lime-dark: #1A2204;
 
     /* Surfaces */
-    --ink: #191919;
+    --ink: #121212;
     --surface: #ffffff;
     --muted-1: #f7f7f8;
     --muted-2: #e7e7e9;
@@ -112,6 +115,31 @@
 
   /* Primary pill button — LaunchDarkly's signature CTA shape */
   .btn-primary {
+    background-color: var(--lime);
+    color: #000000;
+    border-radius: var(--radius-pill);
+    padding: 10px 22px;
+    font-weight: 700;
+    font-size: 14px;
+    transition: all 150ms cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    box-shadow: 0 2px 10px rgba(221, 255, 70, 0.25);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--lime-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 18px rgba(221, 255, 70, 0.4);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .btn-blue {
     background-color: var(--brand-primary);
     color: white;
     border-radius: var(--radius-pill);
@@ -125,13 +153,9 @@
     white-space: nowrap;
   }
 
-  .btn-primary:hover {
+  .btn-blue:hover {
     background-color: var(--brand-primary-hover);
     transform: translateY(-1px);
-  }
-
-  .btn-primary:active {
-    transform: translateY(0);
   }
 
   .btn-outline {
@@ -152,6 +176,60 @@
   .btn-outline:hover {
     background-color: var(--muted-1);
     border-color: var(--muted-3);
+  }
+
+  /* LaunchDarkly signature electric lime CTA button */
+  .btn-lime {
+    background-color: var(--lime);
+    color: #000000;
+    border-radius: var(--radius-pill);
+    padding: 10px 22px;
+    font-weight: 700;
+    font-size: 14px;
+    transition: all 150ms cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    box-shadow: 0 2px 10px rgba(221, 255, 70, 0.25);
+  }
+
+  .btn-lime:hover {
+    background-color: var(--lime-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 18px rgba(221, 255, 70, 0.4);
+  }
+
+  .btn-lime:active {
+    transform: translateY(0);
+  }
+
+  .btn-lime-outline {
+    background-color: transparent;
+    border: 1px solid var(--lime);
+    color: var(--lime);
+    border-radius: var(--radius-pill);
+    padding: 9px 20px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 150ms ease-out;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+
+  .btn-lime-outline:hover {
+    background-color: rgba(221, 255, 70, 0.1);
+    transform: translateY(-1px);
+  }
+
+  /* LaunchDarkly engineering grid background */
+  .bg-grid-launchdarkly {
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
   }
 
   /* Status badges — docs/06 §3 */

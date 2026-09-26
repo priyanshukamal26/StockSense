@@ -108,27 +108,43 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   const Sidebar = (
     <div
-      className="flex flex-col h-full"
-      style={{ background: "var(--ink)", minWidth: "240px", width: "240px" }}
+      className="flex flex-col h-full bg-[#101114] border-r border-white/10 text-white"
+      style={{ minWidth: "250px", width: "250px" }}
     >
-      {/* Logo */}
+      {/* Brand Header with LaunchDarkly Arrow Emblem */}
       <Link
         href="/"
-        className="flex items-center gap-2.5 px-5 py-5 border-b hover:opacity-90 transition-opacity"
-        style={{ borderColor: "rgba(255,255,255,0.08)" }}
+        className="flex items-center justify-between px-5 py-5 border-b border-white/10 hover:opacity-90 transition-opacity group"
         title="Go to StockSense Landing Page"
       >
-        <div
-          className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm flex-shrink-0 shadow"
-          style={{ background: "var(--brand-primary)" }}
-        >
-          S
+        <div className="flex items-center gap-2.5">
+          <span className="font-extrabold text-lg tracking-tight text-white font-sans">
+            StockSense
+          </span>
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="text-[#DDFF46] transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+          >
+            <path
+              d="M5 19L19 5M19 5H9M19 5V15"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </div>
-        <span className="text-white font-display font-bold text-lg">StockSense</span>
+        <span className="text-[10px] font-mono bg-[#DDFF46]/10 text-[#DDFF46] px-2 py-0.5 rounded-full uppercase font-bold tracking-wider">
+          Runtime
+        </span>
       </Link>
 
       {/* Navigation */}
-      <nav className="flex-1 px-3 py-4 overflow-y-auto space-y-1">
+      <nav className="flex-1 px-3 py-4 overflow-y-auto space-y-1.5">
         {navigation.map((item) => {
           const isActive = item.href ? pathname === item.href : false;
           const isOpen = openMenus.includes(item.label);
@@ -139,13 +155,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 key={item.label}
                 href={item.href!}
                 className={cn(
-                  "nav-item",
-                  isActive && "active"
+                  "flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all",
+                  isActive
+                    ? "bg-[#DDFF46] text-black shadow-md font-bold"
+                    : "text-white/70 hover:text-white hover:bg-white/[0.08]"
                 )}
                 onClick={() => setSidebarOpen(false)}
               >
                 {item.icon}
-                <span>{item.label}</span>
+                <span className="flex-1">{item.label}</span>
+                {isActive && <span className="w-1.5 h-1.5 rounded-full bg-black" />}
               </Link>
             );
           }
@@ -153,17 +172,22 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           const isChildActive = item.children.some((c) => pathname.startsWith(c.href));
 
           return (
-            <div key={item.label}>
+            <div key={item.label} className="space-y-1">
               <button
                 onClick={() => toggleMenu(item.label)}
-                className={cn("nav-item w-full", isChildActive && "!text-white")}
+                className={cn(
+                  "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all",
+                  isChildActive
+                    ? "text-white bg-white/[0.06]"
+                    : "text-white/70 hover:text-white hover:bg-white/[0.08]"
+                )}
               >
                 {item.icon}
                 <span className="flex-1 text-left">{item.label}</span>
-                {isOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                {isOpen ? <ChevronDown size={14} className="text-white/40" /> : <ChevronRight size={14} className="text-white/40" />}
               </button>
               {isOpen && (
-                <div className="pl-4 mt-1 space-y-0.5">
+                <div className="pl-4 ml-3 border-l border-white/10 space-y-1 py-0.5">
                   {item.children.map((child) => {
                     const childActive = pathname.startsWith(child.href);
                     return (
@@ -171,17 +195,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         key={child.href}
                         href={child.href}
                         className={cn(
-                          "flex items-center gap-2.5 px-3 py-2 rounded-md text-sm transition-all",
+                          "flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs transition-all",
                           childActive
-                            ? "text-white font-medium"
-                            : "text-white/50 hover:text-white/80 hover:bg-white/5"
+                            ? "bg-[#DDFF46] text-black font-bold shadow-sm"
+                            : "text-white/60 hover:text-white hover:bg-white/[0.06]"
                         )}
                         onClick={() => setSidebarOpen(false)}
                       >
                         {child.icon}
-                        {child.label}
+                        <span className="flex-1">{child.label}</span>
                         {childActive && (
-                          <div className="ml-auto w-1 h-4 rounded-full" style={{ background: "var(--brand-primary)" }} />
+                          <div className="w-1.5 h-1.5 rounded-full bg-black" />
                         )}
                       </Link>
                     );
@@ -193,26 +217,31 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         })}
       </nav>
 
-      {/* User footer */}
+      {/* User footer with LaunchDarkly style */}
       {user && (
-        <div className="p-3 border-t" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
-          <div className="flex items-center gap-3 px-2 py-2 rounded-lg" style={{ background: "rgba(255,255,255,0.04)" }}>
-            <div
-              className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0"
-              style={{ background: "var(--brand-primary)" }}
-            >
+        <div className="p-3 border-t border-white/10 bg-[#0C0D0E]/80">
+          <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/5">
+            <div className="w-8 h-8 rounded-full bg-[#DDFF46] text-black flex items-center justify-center text-xs font-black flex-shrink-0 shadow">
               {user.fullName?.[0]?.toUpperCase() ?? "U"}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-white text-sm font-medium truncate">{user.fullName}</p>
-              <p className="text-white/40 text-xs truncate">{user.role?.replace("_", " ")}</p>
+              <p className="text-white text-xs font-bold truncate">{user.fullName}</p>
+              <p className="text-[#DDFF46] text-[10px] font-mono uppercase tracking-wider truncate">
+                {user.role?.replace("_", " ")}
+              </p>
             </div>
           </div>
           <div className="mt-2 space-y-0.5">
-            <Link href="/profile" className="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-white/50 hover:text-white hover:bg-white/5 transition-all">
+            <Link
+              href="/profile"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-white/60 hover:text-white hover:bg-white/5 transition-all"
+            >
               <User size={14} /> My Profile
             </Link>
-            <button onClick={handleLogout} className="w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm text-white/50 hover:text-white hover:bg-white/5 transition-all">
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-white/60 hover:text-red-400 hover:bg-red-500/10 transition-all text-left"
+            >
               <LogOut size={14} /> Logout
             </button>
           </div>
@@ -222,17 +251,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   );
 
   return (
-    <div className="flex h-screen overflow-hidden" style={{ background: "var(--muted-1)" }}>
+    <div className="flex h-screen overflow-hidden bg-[#0C0D0E] text-white">
       {/* Desktop sidebar */}
-      <div className="hidden lg:flex flex-shrink-0 h-full overflow-y-auto shadow-xl">
+      <div className="hidden lg:flex flex-shrink-0 h-full overflow-y-auto shadow-2xl">
         {Sidebar}
       </div>
 
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="absolute inset-0 bg-black/50" onClick={() => setSidebarOpen(false)} />
-          <div className="relative h-full overflow-y-auto shadow-xl flex">
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setSidebarOpen(false)} />
+          <div className="relative h-full overflow-y-auto shadow-2xl flex">
             {Sidebar}
           </div>
         </div>
@@ -240,49 +269,69 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       {/* Main content area */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Top bar */}
-        <header
-          className="flex items-center gap-4 px-6 py-4 border-b flex-shrink-0"
-          style={{ background: "white", borderColor: "var(--muted-2)", height: "64px" }}
-        >
-          <button
-            className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
-            onClick={() => setSidebarOpen(true)}
-          >
-            <Menu size={20} />
-          </button>
-
-          <Link
-            href="/"
-            className="lg:hidden flex items-center gap-2 hover:opacity-85 transition-opacity"
-            title="Go to StockSense Landing Page"
-          >
-            <div
-              className="w-7 h-7 rounded-md flex items-center justify-center text-white font-bold text-xs"
-              style={{ background: "var(--brand-primary)" }}
+        {/* Top bar with LaunchDarkly Live Telemetry */}
+        <header className="flex items-center justify-between px-6 border-b border-white/10 bg-[#121316] flex-shrink-0 h-16 z-10">
+          <div className="flex items-center gap-3">
+            <button
+              className="lg:hidden p-2 rounded-lg hover:bg-white/10 transition-colors text-white/70"
+              onClick={() => setSidebarOpen(true)}
+              aria-label="Open menu"
             >
-              S
+              <Menu size={20} />
+            </button>
+
+            <Link
+              href="/"
+              className="lg:hidden flex items-center gap-2 hover:opacity-85 transition-opacity"
+              title="Go to StockSense Landing Page"
+            >
+              <span className="font-bold text-white text-base">StockSense</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-[#DDFF46]">
+                <path d="M5 19L19 5M19 5H9M19 5V15" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
+
+            {/* Current Context Pill */}
+            <div className="hidden sm:flex items-center gap-2 text-xs font-mono text-white/50">
+              <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10">WAREHOUSE_OS</span>
+              <span>/</span>
+              <span className="text-white/80 capitalize font-medium">{pathname.split("/").filter(Boolean)[0] || "Dashboard"}</span>
             </div>
-            <span className="font-bold text-gray-900 font-display">StockSense</span>
-          </Link>
+          </div>
 
-          <div className="flex-1" />
+          {/* Center Engine Telemetry Pill */}
+          <div className="hidden md:flex items-center gap-2 bg-[#1A1B20] border border-white/10 rounded-full px-4 py-1 text-xs font-mono">
+            <span className="w-2 h-2 rounded-full bg-[#DDFF46] animate-pulse" />
+            <span className="text-white/80">Core Engine: <strong className="text-[#DDFF46]">LIVE</strong></span>
+            <span className="text-white/30">|</span>
+            <span className="text-white/60">Drift: <strong className="text-emerald-400">0.00%</strong></span>
+          </div>
 
-          <NotificationBell />
+          {/* Right Header Actions */}
+          <div className="flex items-center gap-3">
+            <Link
+              href="/operations/receipts"
+              className="hidden sm:inline-flex items-center gap-1.5 bg-[#DDFF46] hover:bg-[#cbf033] text-black font-bold text-xs px-3.5 py-1.5 rounded-full transition-all shadow"
+            >
+              <span>+ New Operation</span>
+              <span>→</span>
+            </Link>
 
-          <Link
-            href="/profile"
-            className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold transition-transform hover:scale-105"
-            style={{ background: "var(--brand-primary)" }}
-            title="My Profile"
-          >
-            {user?.fullName?.[0]?.toUpperCase() ?? "U"}
-          </Link>
+            <NotificationBell />
+
+            <Link
+              href="/profile"
+              className="w-8 h-8 rounded-full bg-[#1F2026] border border-[#DDFF46]/40 hover:border-[#DDFF46] flex items-center justify-center text-[#DDFF46] text-xs font-bold transition-all shadow"
+              title="My Profile"
+            >
+              {user?.fullName?.[0]?.toUpperCase() ?? "U"}
+            </Link>
+          </div>
         </header>
 
         {/* Page content */}
-        <main className="flex-1 overflow-y-auto">
-          <div className="max-w-[1440px] mx-auto px-6 py-8">
+        <main className="flex-1 overflow-y-auto bg-[#0C0D0E]">
+          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-8">
             {children}
           </div>
         </main>

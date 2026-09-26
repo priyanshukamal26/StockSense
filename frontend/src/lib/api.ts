@@ -19,7 +19,8 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
 
   const res = await fetch(`${API_URL}${path}`, { ...init, headers });
 
-  if (res.status === 401) {
+  // Only attempt token refresh on protected routes (not auth endpoints like /login or /signup)
+  if (res.status === 401 && !path.startsWith("/auth/")) {
     // Try to refresh token
     if (typeof window !== "undefined") {
       const refreshToken = localStorage.getItem("refreshToken");
@@ -45,19 +46,22 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
           localStorage.removeItem("accessToken");
           localStorage.removeItem("refreshToken");
           window.location.href = "/login";
-          throw new Error("Session expired");
+          throw new Error("Session expired. Please sign in again.");
         }
       }
     }
   }
 
   if (!res.ok) {
-    const err = await res.json().catch(() => ({ error: { message: "An error occurred" } }));
+    const err = await res.json().catch(() => ({}));
     const message =
       err?.error?.message ||
       err?.message ||
       (typeof err === "string" ? err : "An error occurred");
-    const errorObj = new Error(message);
+    const errorObj: any = new Error(message);
+    errorObj.error = err.error || { message };
+    errorObj.status = res.status;
+    errorObj.fields = err.fields || err.error?.fields;
     Object.assign(errorObj, err);
     throw errorObj;
   }

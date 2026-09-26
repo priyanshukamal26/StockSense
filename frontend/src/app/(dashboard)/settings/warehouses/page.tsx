@@ -81,31 +81,38 @@ export default function WarehousesPage() {
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto animate-fade-in">
-      {/* Header with verbatim caption from wireframe */}
+      {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="page-title">Warehouses</h1>
-          <p className="text-sm mt-0.5 text-gray-500 italic">
-            &ldquo;This page contains the warehouse details & location.&rdquo;
+          <h1 className="text-2xl font-bold tracking-tight text-white font-mono flex items-center gap-3">
+            Warehouses
+            <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-[#18191D] border border-[#212228] text-slate-400 font-normal">
+              {warehouses.length} Facilities
+            </span>
+          </h1>
+          <p className="text-xs mt-1 text-slate-400">
+            Configure physical hubs, internal zones, and automated location routing codes
           </p>
         </div>
         <button
           onClick={() => setShowAddForm(true)}
-          className="btn-primary flex items-center gap-2"
+          className="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-[#DDFF46] text-black hover:bg-[#C8F902] transition-colors flex items-center gap-2 shadow-sm"
         >
-          <Plus size={16} /> New Warehouse
+          <Plus size={15} /> New Warehouse ➔
         </button>
       </div>
 
       {/* Inline Create Form Modal */}
       {showAddForm && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between border-b pb-3">
-              <h3 className="text-base font-bold text-gray-900">Add New Warehouse</h3>
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-[#121316] border border-[#212228] rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 text-white animate-scale-in">
+            <div className="flex items-center justify-between border-b border-[#212228] pb-3">
+              <h3 className="text-base font-bold text-white font-mono flex items-center gap-2">
+                <span className="text-[#DDFF46]">➔</span> Add New Warehouse
+              </h3>
               <button
                 onClick={() => setShowAddForm(false)}
-                className="p-1 rounded-lg text-gray-400 hover:text-gray-700"
+                className="p-1 rounded-full text-slate-400 hover:text-white hover:bg-[#18191D] transition-colors"
               >
                 <X size={18} />
               </button>
@@ -113,38 +120,36 @@ export default function WarehousesPage() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold uppercase text-gray-700 mb-1">
+                <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 mb-1">
                   Name *
                 </label>
                 <input
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   placeholder="e.g. Main Warehouse, Mumbai Depot"
-                  className="w-full px-3 py-2 text-sm rounded-lg border outline-none"
-                  style={{ borderColor: "var(--muted-2)" }}
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-[#2A2B33] bg-[#0C0D0E] text-white outline-none focus:border-[#DDFF46] transition-colors"
                   required
                   autoFocus
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase text-gray-700 mb-1">
+                <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 mb-1">
                   Short Code *
                 </label>
                 <input
                   value={form.shortCode}
                   onChange={(e) => setForm({ ...form, shortCode: e.target.value.toUpperCase() })}
                   placeholder="e.g. WH, DEPOT"
-                  className="w-full px-3 py-2 text-sm rounded-lg border outline-none font-mono uppercase"
-                  style={{ borderColor: "var(--muted-2)" }}
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-[#2A2B33] bg-[#0C0D0E] text-[#DDFF46] outline-none font-mono uppercase focus:border-[#DDFF46] transition-colors"
                   maxLength={10}
                   required
                 />
-                <p className="text-[11px] text-gray-400 mt-0.5">Used as prefix for operations (e.g. WH/IN/0001)</p>
+                <p className="text-[11px] text-slate-500 font-mono mt-1">Used as prefix for operations (e.g. WH/IN/0001)</p>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase text-gray-700 mb-1">
+                <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 mb-1">
                   Address
                 </label>
                 <textarea
@@ -152,23 +157,22 @@ export default function WarehousesPage() {
                   onChange={(e) => setForm({ ...form, address: e.target.value })}
                   placeholder="Physical street address, city, pin code"
                   rows={2}
-                  className="w-full px-3 py-2 text-sm rounded-lg border outline-none"
-                  style={{ borderColor: "var(--muted-2)" }}
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-[#2A2B33] bg-[#0C0D0E] text-white outline-none focus:border-[#DDFF46] transition-colors"
                 />
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-3 border-t">
+              <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#212228]">
                 <button
                   type="button"
                   onClick={() => setShowAddForm(false)}
-                  className="btn-outline"
+                  className="px-4 py-2 rounded-full text-xs font-semibold text-slate-400 hover:text-white border border-[#2A2B33] hover:bg-[#18191D] transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="btn-primary"
+                  className="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-[#DDFF46] text-black hover:bg-[#C8F902] transition-colors shadow-sm disabled:opacity-50"
                 >
                   {submitting ? "Saving..." : "Create Warehouse"}
                 </button>
@@ -182,37 +186,37 @@ export default function WarehousesPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {loading ? (
           Array.from({ length: 2 }).map((_, i) => (
-            <div key={i} className="ss-card space-y-3">
-              <div className="skeleton h-6 w-32 rounded" />
-              <div className="skeleton h-4 w-48 rounded" />
+            <div key={i} className="rounded-2xl border border-[#212228] bg-[#121316] p-6 space-y-3">
+              <div className="h-6 w-32 rounded bg-[#18191D] animate-pulse" />
+              <div className="h-4 w-48 rounded bg-[#18191D] animate-pulse" />
             </div>
           ))
         ) : warehouses.length === 0 ? (
-          <div className="col-span-2 text-center py-16 text-gray-500 ss-card">
-            No warehouses configured. Click &ldquo;New Warehouse&rdquo; to add one.
+          <div className="col-span-2 text-center py-16 text-slate-500 rounded-2xl border border-[#212228] bg-[#121316]">
+            No warehouses configured. Click &ldquo;New Warehouse ➔&rdquo; to add one.
           </div>
         ) : (
           warehouses.map((w) => (
             <div
               key={w.id}
-              className="ss-card flex flex-col justify-between hover:shadow-md transition-shadow relative group"
+              className="rounded-2xl border border-[#212228] bg-[#121316] p-6 flex flex-col justify-between hover:border-slate-600 transition-all relative group shadow-sm"
             >
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-2 rounded-lg bg-blue-50 text-blue-600">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-[#18191D] border border-[#212228] text-[#DDFF46] flex items-center justify-center">
                       <Building2 size={20} />
                     </div>
                     <div>
-                      <h3 className="font-bold text-gray-900 text-base">{w.name}</h3>
-                      <span className="font-mono text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-700 font-semibold">
+                      <h3 className="font-bold text-white text-base font-mono">{w.name}</h3>
+                      <span className="font-mono text-xs px-2.5 py-0.5 rounded-full bg-[#1A2204] text-[#DDFF46] border border-[#DDFF46]/30 font-semibold inline-block mt-0.5">
                         Code: {w.shortCode}
                       </span>
                     </div>
                   </div>
                   <button
                     onClick={() => handleDelete(w.id, w.name)}
-                    className="p-1.5 rounded text-gray-400 hover:text-red-600 transition-colors opacity-0 group-hover:opacity-100"
+                    className="p-1.5 rounded-full text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition-colors opacity-0 group-hover:opacity-100"
                     title="Delete warehouse"
                   >
                     <Trash2 size={16} />
@@ -220,18 +224,18 @@ export default function WarehousesPage() {
                 </div>
 
                 {w.address ? (
-                  <p className="text-xs text-gray-600 flex items-start gap-1 mt-2">
-                    <MapPin size={14} className="flex-shrink-0 text-gray-400 mt-0.5" />
+                  <p className="text-xs text-slate-400 flex items-start gap-1.5 pt-1">
+                    <MapPin size={14} className="flex-shrink-0 text-slate-500 mt-0.5" />
                     {w.address}
                   </p>
                 ) : (
-                  <p className="text-xs text-gray-400 italic">No address provided</p>
+                  <p className="text-xs text-slate-500 italic pt-1 font-mono">No street address configured</p>
                 )}
               </div>
 
-              <div className="mt-4 pt-3 border-t flex items-center justify-between text-xs text-gray-500">
-                <span>Locations assigned</span>
-                <span className="font-semibold text-gray-900">
+              <div className="mt-5 pt-3 border-t border-[#212228] flex items-center justify-between text-xs font-mono">
+                <span className="text-slate-500">Locations Assigned</span>
+                <span className="font-semibold text-[#DDFF46] px-2 py-0.5 rounded-full bg-[#18191D] border border-[#212228]">
                   {w.locations?.length || 0} locations
                 </span>
               </div>

@@ -31,9 +31,8 @@ export default function LoginPage() {
       toast.success(`Welcome back, ${res.user.fullName}!`);
       router.push("/dashboard");
     } catch (err: unknown) {
-      const e = err as { error?: { message?: string } };
-      // Exact error message per docs/02 §2.1
-      setServerError(e?.error?.message ?? "An error occurred. Please try again.");
+      const e = err as { error?: { message?: string }; message?: string };
+      setServerError(e?.error?.message || e?.message || "An error occurred. Please try again.");
     }
   }
 
@@ -133,41 +132,32 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full py-3 rounded-pill font-semibold text-sm text-white transition-all disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-          style={{
-            background: "var(--brand-primary)",
-            borderRadius: "var(--radius-pill)",
-          }}
-          onMouseEnter={(e) =>
-            !isSubmitting && ((e.currentTarget as HTMLButtonElement).style.background = "var(--brand-primary-hover)")
-          }
-          onMouseLeave={(e) =>
-            ((e.currentTarget as HTMLButtonElement).style.background = "var(--brand-primary)")
-          }
+          className="w-full py-3.5 rounded-full font-bold text-sm bg-[#DDFF46] hover:bg-[#cbf033] text-black transition-all disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-[#DDFF46]/20 hover:scale-[1.01] active:scale-[0.99]"
         >
-          {isSubmitting && <Loader2 size={16} className="animate-spin" />}
-          SIGN IN
+          {isSubmitting ? (
+            <Loader2 size={16} className="animate-spin text-black" />
+          ) : (
+            <>
+              <span>SIGN IN</span>
+              <span>→</span>
+            </>
+          )}
         </button>
 
         {/* Links — exact per wireframe docs/02 §2.1 */}
         <div className="flex items-center justify-between pt-2">
           <Link
             href="/forgot-password"
-            className="text-sm transition-colors"
-            style={{ color: "rgba(255,255,255,0.5)" }}
-            onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "#405BFF")}
-            onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.5)")}
+            className="text-xs text-white/50 hover:text-white transition-colors"
           >
             Forget Password ?
           </Link>
           <Link
             href="/signup"
-            className="text-sm font-semibold transition-colors"
-            style={{ color: "#405BFF" }}
-            onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "#fff")}
-            onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "#405BFF")}
+            className="text-xs font-bold text-[#DDFF46] hover:underline transition-colors flex items-center gap-1"
           >
-            Sign Up
+            <span>Create Account</span>
+            <span>→</span>
           </Link>
         </div>
       </form>

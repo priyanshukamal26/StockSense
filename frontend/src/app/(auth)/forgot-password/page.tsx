@@ -22,11 +22,11 @@ export default function ForgotPasswordPage() {
   const [error, setError] = useState<string | null>(null);
 
   const inputStyle = {
-    background: "rgba(255,255,255,0.06)",
-    border: "1px solid rgba(255,255,255,0.1)",
+    background: "#0C0D0E",
+    border: "1px solid #2A2B33",
     width: "100%",
-    padding: "10px 16px",
-    borderRadius: "10px",
+    padding: "12px 16px",
+    borderRadius: "12px",
     color: "white",
     fontSize: "14px",
     outline: "none",
@@ -84,15 +84,15 @@ export default function ForgotPasswordPage() {
 
   return (
     <div
-      className="w-full rounded-2xl border p-8"
-      style={{ background: "rgba(255,255,255,0.04)", borderColor: "rgba(255,255,255,0.1)", backdropFilter: "blur(20px)" }}
+      className="w-full rounded-2xl border border-[#212228] p-8 shadow-2xl"
+      style={{ background: "#121316" }}
     >
-      <Link href="/login" className="flex items-center gap-2 text-sm text-white/50 hover:text-white mb-6 transition-colors w-fit">
+      <Link href="/login" className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-slate-400 hover:text-white mb-6 transition-colors">
         <ArrowLeft size={14} /> Back to Sign In
       </Link>
 
       {error && (
-        <div className="rounded-lg px-4 py-3 text-sm mb-4" style={{ background: "rgba(220,38,38,0.1)", border: "1px solid rgba(220,38,38,0.3)", color: "#fca5a5" }}>
+        <div className="rounded-xl px-4 py-3 text-xs font-mono mb-5 border border-rose-500/30 bg-rose-950/30 text-rose-300">
           {error}
         </div>
       )}
@@ -100,24 +100,30 @@ export default function ForgotPasswordPage() {
       {step === "request" && (
         <>
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: "rgba(64,91,255,0.15)" }}>
-              <Mail size={18} style={{ color: "#405BFF" }} />
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-[#18191D] border border-[#212228] text-[#DDFF46]">
+              <Mail size={18} />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white">Forgot Password</h2>
-              <p className="text-white/50 text-sm">Enter your Login ID or Email</p>
+              <h2 className="text-xl font-bold text-white font-mono flex items-center gap-2">
+                <span className="text-[#DDFF46]">➔</span> Password Recovery
+              </h2>
+              <p className="text-slate-400 text-xs mt-0.5">Enter your Login ID or registered Email</p>
             </div>
           </div>
           <form onSubmit={step1Form.handleSubmit(onStep1)} className="space-y-4">
-            <input {...step1Form.register("loginIdOrEmail")} placeholder="Login ID or Email address" style={inputStyle} />
-            {step1Form.formState.errors.loginIdOrEmail && (
-              <p className="text-xs" style={{ color: "#fca5a5" }}>{step1Form.formState.errors.loginIdOrEmail.message}</p>
-            )}
-            <button type="submit" disabled={step1Form.formState.isSubmitting}
-              className="w-full py-3 font-semibold text-sm text-white flex items-center justify-center gap-2"
-              style={{ background: "var(--brand-primary)", borderRadius: "var(--radius-pill)" }}>
+            <div>
+              <input {...step1Form.register("loginIdOrEmail")} placeholder="Login ID or Email address" style={inputStyle} />
+              {step1Form.formState.errors.loginIdOrEmail && (
+                <p className="text-xs text-rose-400 mt-1 font-mono">{step1Form.formState.errors.loginIdOrEmail.message}</p>
+              )}
+            </div>
+            <button
+              type="submit"
+              disabled={step1Form.formState.isSubmitting}
+              className="w-full py-3 font-bold text-xs uppercase tracking-wider text-black bg-[#DDFF46] hover:bg-[#C8F902] transition-colors rounded-full flex items-center justify-center gap-2 shadow-sm disabled:opacity-50"
+            >
               {step1Form.formState.isSubmitting && <Loader2 size={16} className="animate-spin" />}
-              Send OTP
+              Send Recovery OTP ➔
             </button>
           </form>
         </>
@@ -126,27 +132,40 @@ export default function ForgotPasswordPage() {
       {step === "otp" && (
         <>
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: "rgba(64,91,255,0.15)" }}>
-              <Key size={18} style={{ color: "#405BFF" }} />
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-[#18191D] border border-[#212228] text-[#DDFF46]">
+              <Key size={18} />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white">Enter OTP</h2>
-              <p className="text-white/50 text-sm">6-digit code · expires in 5 minutes</p>
+              <h2 className="text-xl font-bold text-white font-mono flex items-center gap-2">
+                <span className="text-[#DDFF46]">➔</span> Enter Code
+              </h2>
+              <p className="text-slate-400 text-xs mt-0.5">6-digit verification code · expires in 5 minutes</p>
             </div>
           </div>
           {devOtp && (
-            <div className="mb-4 rounded-lg px-4 py-3 text-sm" style={{ background: "rgba(64,91,255,0.1)", border: "1px solid rgba(64,91,255,0.3)", color: "#a5b4fc" }}>
-              <strong>Dev mode OTP:</strong> {devOtp}
+            <div className="mb-4 rounded-xl px-4 py-3 text-xs font-mono border border-[#DDFF46]/30 bg-[#1A2204] text-[#DDFF46]">
+              <strong>Dev Mode OTP:</strong> {devOtp}
             </div>
           )}
           <form onSubmit={step2Form.handleSubmit(onStep2)} className="space-y-4">
-            <input {...step2Form.register("otp")} placeholder="Enter 6-digit OTP" maxLength={6} style={{ ...inputStyle, textAlign: "center", letterSpacing: "8px", fontSize: "24px", fontWeight: "bold" }} />
-            {step2Form.formState.errors.otp && <p className="text-xs" style={{ color: "#fca5a5" }}>{step2Form.formState.errors.otp.message}</p>}
-            <button type="submit" disabled={step2Form.formState.isSubmitting}
-              className="w-full py-3 font-semibold text-sm text-white flex items-center justify-center gap-2"
-              style={{ background: "var(--brand-primary)", borderRadius: "var(--radius-pill)" }}>
+            <div>
+              <input
+                {...step2Form.register("otp")}
+                placeholder="000000"
+                maxLength={6}
+                style={{ ...inputStyle, textAlign: "center", letterSpacing: "10px", fontSize: "24px", fontWeight: "bold", fontFamily: "monospace" }}
+              />
+              {step2Form.formState.errors.otp && (
+                <p className="text-xs text-rose-400 mt-1 font-mono">{step2Form.formState.errors.otp.message}</p>
+              )}
+            </div>
+            <button
+              type="submit"
+              disabled={step2Form.formState.isSubmitting}
+              className="w-full py-3 font-bold text-xs uppercase tracking-wider text-black bg-[#DDFF46] hover:bg-[#C8F902] transition-colors rounded-full flex items-center justify-center gap-2 shadow-sm disabled:opacity-50"
+            >
               {step2Form.formState.isSubmitting && <Loader2 size={16} className="animate-spin" />}
-              Verify OTP
+              Verify Code ➔
             </button>
           </form>
         </>
@@ -155,24 +174,36 @@ export default function ForgotPasswordPage() {
       {step === "reset" && (
         <>
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: "rgba(64,91,255,0.15)" }}>
-              <Lock size={18} style={{ color: "#405BFF" }} />
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-[#18191D] border border-[#212228] text-[#DDFF46]">
+              <Lock size={18} />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white">New Password</h2>
-              <p className="text-white/50 text-sm">Choose a strong password</p>
+              <h2 className="text-xl font-bold text-white font-mono flex items-center gap-2">
+                <span className="text-[#DDFF46]">➔</span> New Password
+              </h2>
+              <p className="text-slate-400 text-xs mt-0.5">Configure your new secure password</p>
             </div>
           </div>
           <form onSubmit={step3Form.handleSubmit(onStep3)} className="space-y-4">
-            <input {...step3Form.register("newPassword")} type="password" placeholder="New Password" style={inputStyle} />
-            {step3Form.formState.errors.newPassword && <p className="text-xs" style={{ color: "#fca5a5" }}>{step3Form.formState.errors.newPassword.message}</p>}
-            <input {...step3Form.register("confirmPassword")} type="password" placeholder="Confirm New Password" style={inputStyle} />
-            {step3Form.formState.errors.confirmPassword && <p className="text-xs" style={{ color: "#fca5a5" }}>{step3Form.formState.errors.confirmPassword.message}</p>}
-            <button type="submit" disabled={step3Form.formState.isSubmitting}
-              className="w-full py-3 font-semibold text-sm text-white flex items-center justify-center gap-2"
-              style={{ background: "var(--brand-primary)", borderRadius: "var(--radius-pill)" }}>
+            <div>
+              <input {...step3Form.register("newPassword")} type="password" placeholder="New Password" style={inputStyle} />
+              {step3Form.formState.errors.newPassword && (
+                <p className="text-xs text-rose-400 mt-1 font-mono">{step3Form.formState.errors.newPassword.message}</p>
+              )}
+            </div>
+            <div>
+              <input {...step3Form.register("confirmPassword")} type="password" placeholder="Confirm New Password" style={inputStyle} />
+              {step3Form.formState.errors.confirmPassword && (
+                <p className="text-xs text-rose-400 mt-1 font-mono">{step3Form.formState.errors.confirmPassword.message}</p>
+              )}
+            </div>
+            <button
+              type="submit"
+              disabled={step3Form.formState.isSubmitting}
+              className="w-full py-3 font-bold text-xs uppercase tracking-wider text-black bg-[#DDFF46] hover:bg-[#C8F902] transition-colors rounded-full flex items-center justify-center gap-2 shadow-sm disabled:opacity-50"
+            >
               {step3Form.formState.isSubmitting && <Loader2 size={16} className="animate-spin" />}
-              Reset Password
+              Update Password & Sign In ➔
             </button>
           </form>
         </>

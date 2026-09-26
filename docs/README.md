@@ -51,19 +51,18 @@ npm install
 npm run dev            # http://localhost:3000
 ```
 
-Demo login (from the seed script — replace with real values once seeded):
-```
-Login ID: manager01
-Password: Demo@1234
-```
+Demo login (from the enterprise seed script):
+- Admin: `demoadmin` / `admin123` or `admin01` / `Admin@1234`
+- Warehouse Worker: `demoworker` / `worker123` or `staff01` / `Staff@1234`
+- Manager: `mgr001` / `Manager@1234`
 
 ## Team & roles
 
-| Person | Lane | Docs |
+| Person | Lane | Profile |
 |---|---|---|
-| Person A | Backend & Database Lead | `docs/04`, `docs/05` |
-| Person B | Frontend & Design System Lead | `docs/06` |
-| Person C | Integration, Real-Time & Quality Lead | `docs/09`, `docs/10` |
+| Priyanshu Kamal | Backend & Database Lead | [GitHub](https://github.com/priyanshukamal26/) · [LinkedIn](https://www.linkedin.com/in/priyanshukamal/) |
+| Somya Vishnoi | Frontend & Design System Lead | [GitHub](https://github.com/Somya-Vishnoi) · [LinkedIn](https://www.linkedin.com/in/Somya-Vishnoi/) |
+| Aditya Kumar | Integration, Real-Time & Quality Lead | [GitHub](https://github.com/kumaradi9508) · [LinkedIn](https://www.linkedin.com/in/aditya958) |
 
 Full phase-by-phase ownership: [`docs/07-roles-and-phase-plan.md`](./docs/07-roles-and-phase-plan.md).
 Live contribution tracker: [`docs/08-git-workflow-and-contributions.md`](./docs/08-git-workflow-and-contributions.md) §7.
