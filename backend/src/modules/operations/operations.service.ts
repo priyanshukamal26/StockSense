@@ -189,7 +189,7 @@ export const OperationsService = {
       throw AppError.conflict("Only Draft operations can be moved to Ready.");
     }
 
-    let newStatus = OperationStatus.READY;
+    let newStatus: OperationStatus = OperationStatus.READY;
 
     if (op.operationType === OperationType.DELIVERY) {
       for (const line of op.lines) {

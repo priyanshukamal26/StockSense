@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { AnyZodObject, ZodError } from "zod";
+import { ZodTypeAny, ZodError } from "zod";
 
 /**
  * Express middleware factory: validates req.body against a Zod schema.
  * On failure, calls next() with a ZodError which is caught by the global error handler.
  */
-export function validate(schema: AnyZodObject) {
+export function validate(schema: ZodTypeAny) {
   return (req: Request, _res: Response, next: NextFunction) => {
     try {
       req.body = schema.parse(req.body);
@@ -23,7 +23,7 @@ export function validate(schema: AnyZodObject) {
 /**
  * Validates req.query against a Zod schema.
  */
-export function validateQuery(schema: AnyZodObject) {
+export function validateQuery(schema: ZodTypeAny) {
   return (req: Request, _res: Response, next: NextFunction) => {
     try {
       req.query = schema.parse(req.query) as Record<string, string>;
