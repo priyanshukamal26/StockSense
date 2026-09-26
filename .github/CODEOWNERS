@@ -1,0 +1,10 @@
+# .github/CODEOWNERS
+
+/backend/src/modules/auth/          @priyanshu-kamal
+/backend/prisma/                    @priyanshu-kamal
+/backend/src/modules/operations/    @priyanshu-kamal
+/frontend/src/app/(dashboard)/      @somya-vishnoi
+/frontend/src/components/           @somya-vishnoi
+/backend/src/common/realtime/       @aditya-kumar
+/docker-compose.yml                 @aditya-kumar
+/.github/                           @aditya-kumar

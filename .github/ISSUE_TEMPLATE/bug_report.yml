@@ -1,0 +1,34 @@
+name: Bug Report
+description: Something is broken or not behaving as specified in docs/
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before filing, check that the behavior you're reporting actually conflicts with `docs/02` (wireframes) or `docs/04` (schema). If it's a design question, use the Feature/Question template instead.
+  - type: input
+    id: phase
+    attributes:
+      label: Phase / Subphase
+      placeholder: "e.g. Phase 7.1"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: What happened vs. what the docs say should happen?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior (per which doc section?)
+    validations:
+      required: true
