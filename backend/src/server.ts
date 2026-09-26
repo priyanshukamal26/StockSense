@@ -2,12 +2,14 @@ import "dotenv/config";
 import http from "http";
 import app from "./app";
 import { initSocket } from "./common/realtime/socket";
+import { initCronJobs } from "./common/lib/cron";
 import prisma from "./common/lib/prisma";
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000;
 
 const httpServer = http.createServer(app);
 initSocket(httpServer);
+initCronJobs();
 
 async function main() {
   try {

@@ -26,9 +26,13 @@ export function errorHandler(
   }
 
   // Known operational errors (thrown from services)
-  if (err instanceof AppError) {
-    res.status(err.status).json({
-      error: { code: err.code, message: err.message },
+  if (
+    err instanceof AppError ||
+    (err instanceof Error && typeof (err as any).status === "number" && typeof (err as any).code === "string")
+  ) {
+    const appErr = err as any;
+    res.status(appErr.status).json({
+      error: { code: appErr.code, message: appErr.message },
     });
     return;
   }
@@ -55,7 +59,11 @@ export function errorHandler(
   // Unexpected
   console.error("[Error] Unhandled error:", err);
   res.status(500).json({
-    error: { code: "INTERNAL_ERROR", message: "An unexpected error occurred." },
+    error: {
+      code: "INTERNAL_ERROR",
+      message: err instanceof Error ? err.message : "An unexpected error occurred.",
+      details: err instanceof Error ? err.stack : err,
+    },
   });
 }
 

@@ -20,19 +20,19 @@ categoriesRouter.get("/", async (_req, res, next) => {
       include: { _count: { select: { products: true } } },
       orderBy: { name: "asc" },
     });
-    res.json({ data: categories });
+    res.json({ data: categories, categories });
   } catch (err) { next(err); }
 });
 
 // POST /categories
 categoriesRouter.post(
   "/",
-  requireRole([UserRole.ADMIN, UserRole.INVENTORY_MANAGER]),
+  requireRole([UserRole.ADMIN, UserRole.INVENTORY_MANAGER, UserRole.WAREHOUSE_STAFF]),
   validate(categorySchema),
   async (req, res, next) => {
     try {
       const category = await prisma.productCategory.create({ data: req.body });
-      res.status(201).json({ category });
+      res.status(201).json({ data: category, category });
     } catch (err) { next(err); }
   }
 );
@@ -43,14 +43,14 @@ categoriesRouter.get("/:id", async (req, res, next) => {
     const category = await prisma.productCategory.findUniqueOrThrow({
       where: { id: req.params.id },
     });
-    res.json({ category });
+    res.json({ data: category, category });
   } catch (err) { next(err); }
 });
 
 // PATCH /categories/:id
 categoriesRouter.patch(
   "/:id",
-  requireRole([UserRole.ADMIN, UserRole.INVENTORY_MANAGER]),
+  requireRole([UserRole.ADMIN, UserRole.INVENTORY_MANAGER, UserRole.WAREHOUSE_STAFF]),
   validate(categorySchema.partial()),
   async (req, res, next) => {
     try {
@@ -58,7 +58,7 @@ categoriesRouter.patch(
         where: { id: req.params.id },
         data: req.body,
       });
-      res.json({ category });
+      res.json({ data: category, category });
     } catch (err) { next(err); }
   }
 );

@@ -26,19 +26,19 @@ warehousesRouter.get("/", async (_req, res, next) => {
       include: { _count: { select: { locations: true } } },
       orderBy: { createdAt: "asc" },
     });
-    res.json({ data: warehouses });
+    res.json({ data: warehouses, warehouses });
   } catch (err) { next(err); }
 });
 
 // POST /warehouses — INVENTORY_MANAGER or ADMIN
 warehousesRouter.post(
   "/",
-  requireRole([UserRole.ADMIN, UserRole.INVENTORY_MANAGER]),
+  requireRole([UserRole.ADMIN, UserRole.INVENTORY_MANAGER, UserRole.WAREHOUSE_STAFF]),
   validate(warehouseSchema),
   async (req, res, next) => {
     try {
       const warehouse = await prisma.warehouse.create({ data: req.body });
-      res.status(201).json({ warehouse });
+      res.status(201).json({ data: warehouse, warehouse });
     } catch (err) { next(err); }
   }
 );
@@ -50,14 +50,14 @@ warehousesRouter.get("/:id", async (req, res, next) => {
       where: { id: req.params.id },
       include: { locations: true },
     });
-    res.json({ warehouse });
+    res.json({ data: warehouse, warehouse });
   } catch (err) { next(err); }
 });
 
 // PATCH /warehouses/:id
 warehousesRouter.patch(
   "/:id",
-  requireRole([UserRole.ADMIN, UserRole.INVENTORY_MANAGER]),
+  requireRole([UserRole.ADMIN, UserRole.INVENTORY_MANAGER, UserRole.WAREHOUSE_STAFF]),
   validate(warehouseSchema.partial()),
   async (req, res, next) => {
     try {
@@ -65,7 +65,7 @@ warehousesRouter.patch(
         where: { id: req.params.id },
         data: req.body,
       });
-      res.json({ warehouse });
+      res.json({ data: warehouse, warehouse });
     } catch (err) { next(err); }
   }
 );
@@ -73,7 +73,7 @@ warehousesRouter.patch(
 // DELETE /warehouses/:id — blocks if referenced
 warehousesRouter.delete(
   "/:id",
-  requireRole([UserRole.ADMIN, UserRole.INVENTORY_MANAGER]),
+  requireRole([UserRole.ADMIN, UserRole.INVENTORY_MANAGER, UserRole.WAREHOUSE_STAFF]),
   async (req, res, next) => {
     try {
       // Check for open operations referencing this warehouse's locations

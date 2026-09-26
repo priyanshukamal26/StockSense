@@ -97,42 +97,41 @@ async function main() {
   });
 
   // Virtual locations (no warehouse)
-  const vendorLoc = await prisma.location.upsert({
-    where: { warehouseId_shortCode: { warehouseId: null as unknown as string, shortCode: "VENDOR" } },
-    update: {},
-    create: {
-      name: "Vendor (Virtual)",
-      shortCode: "VENDOR",
-      warehouseId: null,
-      locationType: LocationType.VENDOR,
-    },
-  }).catch(() => prisma.location.findFirst({ where: { locationType: LocationType.VENDOR } }));
+  let vendor = await prisma.location.findFirst({ where: { locationType: LocationType.VENDOR } });
+  if (!vendor) {
+    vendor = await prisma.location.create({
+      data: {
+        name: "Vendor (Virtual)",
+        shortCode: "VENDOR",
+        warehouseId: null,
+        locationType: LocationType.VENDOR,
+      },
+    });
+  }
 
-  const customerLoc = await prisma.location.upsert({
-    where: { warehouseId_shortCode: { warehouseId: null as unknown as string, shortCode: "CUSTOMER" } },
-    update: {},
-    create: {
-      name: "Customer (Virtual)",
-      shortCode: "CUSTOMER",
-      warehouseId: null,
-      locationType: LocationType.CUSTOMER,
-    },
-  }).catch(() => prisma.location.findFirst({ where: { locationType: LocationType.CUSTOMER } }));
+  let customer = await prisma.location.findFirst({ where: { locationType: LocationType.CUSTOMER } });
+  if (!customer) {
+    customer = await prisma.location.create({
+      data: {
+        name: "Customer (Virtual)",
+        shortCode: "CUSTOMER",
+        warehouseId: null,
+        locationType: LocationType.CUSTOMER,
+      },
+    });
+  }
 
-  const inventoryLossLoc = await prisma.location.upsert({
-    where: { warehouseId_shortCode: { warehouseId: null as unknown as string, shortCode: "INVLOSS" } },
-    update: {},
-    create: {
-      name: "Inventory Loss (Virtual)",
-      shortCode: "INVLOSS",
-      warehouseId: null,
-      locationType: LocationType.INVENTORY_LOSS,
-    },
-  }).catch(() => prisma.location.findFirst({ where: { locationType: LocationType.INVENTORY_LOSS } }));
-
-  const vendor = vendorLoc!;
-  const customer = customerLoc!;
-  const invLoss = inventoryLossLoc!;
+  let invLoss = await prisma.location.findFirst({ where: { locationType: LocationType.INVENTORY_LOSS } });
+  if (!invLoss) {
+    invLoss = await prisma.location.create({
+      data: {
+        name: "Inventory Loss (Virtual)",
+        shortCode: "INVLOSS",
+        warehouseId: null,
+        locationType: LocationType.INVENTORY_LOSS,
+      },
+    });
+  }
 
   console.log(`✅ Locations: Stock1, Stock2, ProdRack, VENDOR, CUSTOMER, INVLOSS`);
 

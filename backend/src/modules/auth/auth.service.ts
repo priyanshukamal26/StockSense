@@ -7,6 +7,7 @@ import {
 } from "../../common/lib/jwt";
 import { sendOtpEmail } from "../../common/lib/mailer";
 import { AppError } from "../../common/middleware/error-handler";
+import { UserRole } from "@prisma/client";
 import {
   SignupDto,
   LoginDto,
@@ -76,6 +77,7 @@ export const AuthService = {
         email: dto.email,
         passwordHash,
         fullName: dto.fullName,
+        role: UserRole.ADMIN,
       },
     });
 

@@ -30,19 +30,19 @@ locationsRouter.get("/", async (req, res, next) => {
       include: { warehouse: { select: { id: true, name: true, shortCode: true } } },
       orderBy: { name: "asc" },
     });
-    res.json({ data: locations });
+    res.json({ data: locations, locations });
   } catch (err) { next(err); }
 });
 
 // POST /locations
 locationsRouter.post(
   "/",
-  requireRole([UserRole.ADMIN, UserRole.INVENTORY_MANAGER]),
+  requireRole([UserRole.ADMIN, UserRole.INVENTORY_MANAGER, UserRole.WAREHOUSE_STAFF]),
   validate(locationSchema),
   async (req, res, next) => {
     try {
       const location = await prisma.location.create({ data: req.body });
-      res.status(201).json({ location });
+      res.status(201).json({ data: location, location });
     } catch (err) { next(err); }
   }
 );
@@ -54,14 +54,14 @@ locationsRouter.get("/:id", async (req, res, next) => {
       where: { id: req.params.id },
       include: { warehouse: true },
     });
-    res.json({ location });
+    res.json({ data: location, location });
   } catch (err) { next(err); }
 });
 
 // PATCH /locations/:id
 locationsRouter.patch(
   "/:id",
-  requireRole([UserRole.ADMIN, UserRole.INVENTORY_MANAGER]),
+  requireRole([UserRole.ADMIN, UserRole.INVENTORY_MANAGER, UserRole.WAREHOUSE_STAFF]),
   validate(locationSchema.partial()),
   async (req, res, next) => {
     try {
@@ -69,7 +69,7 @@ locationsRouter.patch(
         where: { id: req.params.id },
         data: req.body,
       });
-      res.json({ location });
+      res.json({ data: location, location });
     } catch (err) { next(err); }
   }
 );
@@ -77,7 +77,7 @@ locationsRouter.patch(
 // DELETE /locations/:id — blocks if stock or open operations reference it
 locationsRouter.delete(
   "/:id",
-  requireRole([UserRole.ADMIN, UserRole.INVENTORY_MANAGER]),
+  requireRole([UserRole.ADMIN, UserRole.INVENTORY_MANAGER, UserRole.WAREHOUSE_STAFF]),
   async (req, res, next) => {
     try {
       const [stockCount, opCount] = await Promise.all([

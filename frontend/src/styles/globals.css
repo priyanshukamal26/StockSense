@@ -1,0 +1,195 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── LaunchDarkly design tokens — docs/06 §1 ───────────────────────────────── */
+@layer base {
+  :root {
+    /* Brand */
+    --brand-primary: #405bff;
+    --brand-primary-hover: #3349d6;
+
+    /* Surfaces */
+    --ink: #191919;
+    --surface: #ffffff;
+    --muted-1: #f7f7f8;
+    --muted-2: #e7e7e9;
+    --muted-3: #969696;
+    --muted-4: #6b6b6f;
+
+    /* Semantic status — docs/06 §3 */
+    --success: #16a34a;
+    --warning: #d97706;
+    --danger: #dc2626;
+    --info: #405bff;
+    --neutral: #969696;
+
+    /* Border radii */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-pill: 9999px;
+
+    /* shadcn/ui CSS variable mapping (light mode = LaunchDarkly "white canvas") */
+    --background: 0 0% 97%;         /* --muted-1 */
+    --foreground: 0 0% 10%;         /* --ink */
+    --card: 0 0% 100%;              /* --surface */
+    --card-foreground: 0 0% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 232 100% 62%;        /* #405BFF */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 4% 91%;        /* --muted-2 */
+    --secondary-foreground: 240 3% 42%;
+    --muted: 240 4% 91%;
+    --muted-foreground: 240 3% 42%; /* --muted-4 */
+    --accent: 232 100% 62%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 51%;       /* #DC2626 */
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 4% 91%;
+    --input: 240 4% 91%;
+    --ring: 232 100% 62%;
+    --radius: 10px;
+
+    /* Sidebar — dark ink surface per docs/06 §4 */
+    --sidebar-background: 0 0% 10%;           /* --ink */
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 232 100% 62%;          /* --brand-primary */
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 18%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 232 100% 62%;
+  }
+}
+
+/* ─── Base styles ────────────────────────────────────────────────────────────── */
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-muted-1 text-muted-4 font-sans antialiased;
+    background-color: var(--muted-1);
+    color: var(--muted-4);
+    font-family: "Inter", system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Space Grotesk", "Inter", sans-serif;
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  h1 { font-size: 32px; line-height: 40px; }
+  h2 { font-size: 24px; line-height: 32px; }
+  h3 { font-size: 18px; line-height: 28px; }
+}
+
+/* ─── Component utilities ────────────────────────────────────────────────────── */
+@layer components {
+  /* Page title (h1-level) */
+  .page-title {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  /* Card — standard elevated surface */
+  .ss-card {
+    @apply bg-white rounded-lg p-6 shadow-sm border border-muted-2;
+    border-radius: var(--radius-lg);
+    transition: box-shadow 150ms ease-out, transform 150ms ease-out;
+  }
+
+  .ss-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Primary pill button — LaunchDarkly's signature CTA shape */
+  .btn-primary {
+    background-color: var(--brand-primary);
+    color: white;
+    border-radius: var(--radius-pill);
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background-color 150ms ease-out, transform 100ms ease-out;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--brand-primary-hover);
+    transform: translateY(-1px);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  /* Status badges — docs/06 §3 */
+  .badge-draft { @apply bg-neutral/10 text-neutral border border-neutral/20; color: var(--neutral); }
+  .badge-waiting { @apply bg-warning/10 border border-warning/20; color: var(--warning); }
+  .badge-ready { @apply bg-info/10 border border-info/20; color: var(--info); }
+  .badge-done { @apply bg-success/10 border border-success/20; color: var(--success); }
+  .badge-cancelled { @apply bg-danger/10 border border-danger/20; color: var(--danger); }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 10px;
+    border-radius: var(--radius-pill);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  /* Move history row coloring — docs/06 §3 + docs/02 §10 */
+  .move-in { color: var(--success); }
+  .move-out { color: var(--danger); }
+  .move-internal { color: var(--muted-4); }
+
+  /* Sidebar nav item */
+  .nav-item {
+    @apply flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-all;
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 150ms ease-out;
+  }
+
+  .nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: white;
+  }
+
+  .nav-item.active {
+    background-color: rgba(64, 91, 255, 0.15);
+    color: white;
+    border-left: 3px solid var(--brand-primary);
+    padding-left: calc(12px - 3px);
+  }
+
+  /* Page container */
+  .page-container {
+    @apply max-w-content mx-auto px-6 py-8;
+  }
+
+  /* Skeleton loading */
+  .skeleton {
+    @apply animate-pulse bg-muted-2 rounded-md;
+  }
+
+  /* Insufficient stock row highlight — docs/02 §7.1 */
+  .stock-insufficient {
+    background-color: rgba(220, 38, 38, 0.05);
+    border-left: 3px solid var(--danger);
+  }
+}
